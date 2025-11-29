@@ -4,6 +4,10 @@ import google from "../assets/google_icon.png";
 import { FaEye } from "react-icons/fa";
 import { HiEyeSlash } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
+import { serverUrl } from "../App";
+import axios from "axios";
+import { toast } from "react-toastify";
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -11,13 +15,30 @@ function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  
+  const handleLogin = async()=>{
+    setLoading(true)
+    try {
+      const result = await axios.post(`${serverUrl}/api/auth/login,{
+        email,
+        password
+        }, {withCredentials:true}`);
+        console.log(result.data);
+        setLoading(false);
+        toast.success("Login Successfully");
+        navigate("/");
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      toast.error(error.message);
+    }
+  }
   return (
     <div
       className="bg-[#dddbdb] w-full h-full flex
 items-center justify-center"
     >
-      <form className="w-[90%] md:w-200 h-150 ☐ bg-[white] shadow-xl rounded-2xl flex">
+      <form className="w-[90%] md:w-200 h-150 ☐ bg-[white] shadow-xl rounded-2xl flex"
+       onSubmit={(e)=>e.preventDefault()}>
         {/* Left Portion */}
         <div className="md:w-[50%] w-full h-full flex flex-col items-center justify-center gap-3 ">
           <div>
@@ -48,7 +69,7 @@ items-center justify-center"
               type={showPassword ? "text" : "password"}
               className="border w-full h-[35px] border-[#e7e6e6] 
           text-[15px] px-[20px]"
-              placeholder="Your Password"
+              placeholder="Your Password" onChange={(e)=>setPassword(e.target.value)} value={password}
             />
             {!showPassword ? (
               <FaEye
@@ -65,9 +86,9 @@ items-center justify-center"
           
           <button
             className="w-[80%] h-[40px] bg-black text-white
-          cursor-pointer flex items-center justify-center rounded-[5px] hover:scale-110"
+          cursor-pointer flex items-center justify-center rounded-[5px] hover:scale-110" onClick={handleLogin} disabled={loading}
           >
-            Login
+            {loading? <ClipLoader size={30} color="white"/>: "Login"}
           </button>
           <span className="text-[13px] cursor-pointer text-[#585757]">Forget your Password?</span>
 
@@ -89,8 +110,8 @@ items-center justify-center"
             <span className="text-[18px] text-gray-500">oogle</span>
           </div>
           <div className="text-[#6f6f6f]">Create new account
-          <span className="underline underline-offset-1 text-[black] cursor-pointer" 
-          onClick={()=>navigate("/signup")}>Signup</span>
+          <span className="underline underline-offset-1 text-[black] cursor-pointer hover:text-xl" 
+          onClick={()=>navigate("/signup")} >Signup</span>
           </div>
         </div>
 
