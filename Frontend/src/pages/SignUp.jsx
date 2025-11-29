@@ -137,8 +137,8 @@ items-center justify-center"
             <img src={google} alt="google" className="w-[25px]" />
             <span className="text-[18px] text-gray-500">oogle</span>
           </div>
-          <div className="text-[#6f6f6f]">Already have an account
-          <span className="underline underline-offset-1 text-[black] cursor-pointer" 
+          <div className="text-[#6f6f6f] ">Already have an account 
+          <span className="underline underline-offset-1 text-[black] cursor-pointer hover:text-xl" 
           onClick={()=>navigate("/login")}>Login</span>
           </div>
         </div>
