@@ -1,5 +1,5 @@
 
-import Nav  from "../components/Nav.jsx";
+import Nav from "../components/Nav_TEMP.jsx";
 
 function Home() {
   return (
