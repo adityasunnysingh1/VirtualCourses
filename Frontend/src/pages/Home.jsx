@@ -1,6 +1,10 @@
 
 import Nav from "../components/Nav_TEMP.jsx";
 import home_page from "../assets/home_page.png";
+import { SiViaplay } from "react-icons/si";
+import ai from "../assets/aisearchicon.png";
+import ai1 from "../assets/blackaicon.png";
+import Logos from "../components/Logos.jsx";
 
 function Home() {
   return (
@@ -20,10 +24,20 @@ function Home() {
         flex items-center justify-center gap-3 flex-wrap">
           <button className="px-[20px] py-[10px] border-2
           lg:border-white border-black lg:text-white text-black rounded-[10px]
-          text-[18px] font-light flex gap-2 cursor-pointer">View All Courses</button>
-          <button className=""></button>
+          text-[18px] font-light flex gap-2 cursor-pointer">
+          View All Courses <SiViaplay className="w-[30px] h-[30px] lg:fill-white fill-black"/>
+          </button>
+          <button className="px-[20px] py-[10px] lg:bg-white bg-black 
+          lg:text-black text-white rounded-[10px] text-[18px] font-light
+          flex gap-2 cursor-pointer items-center justify-center">
+          Search with AI
+          <img src={ai} alt="ai_icon" className="w-[30px] h-[30px] rounded-full hidden lg:block"/>
+          <img src={ai1} alt="ai1_icon" className="w-[35px] h-[35px] rounded-full lg:hidden"/>
+          </button>
         </div>
+        
       </div>
+      <Logos/>
     </div>
   );
 }
