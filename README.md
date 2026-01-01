@@ -73,7 +73,3 @@ Want to see the code in action?
 
 ---
 
-## 👨‍💻 Author
-**[Your Name]** *Building scalable web apps with the MERN stack.*
-<br />
-[LinkedIn](#) • [Portfolio](#) • [Email](#)
