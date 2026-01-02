@@ -17,7 +17,6 @@ function ViewCourse() {
   const { courseData, selectedCourse } = useSelector((state) => state.course);
   const { userData } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
   const [selectedLecture, setSelectedLecture] = useState(null);
   const [creatorData, setCreatorData] = useState(null);
   
