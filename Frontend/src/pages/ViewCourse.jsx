@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {BsArrowReturnLeft} from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -13,7 +13,6 @@ import { serverUrl } from '../App';
 import Card from '../components/Card';
 import { toast } from 'react-toastify';
 import { ClipLoader } from 'react-spinners';
-
 
 function ViewCourse() {
   const navigate = useNavigate();
@@ -56,18 +55,20 @@ function ViewCourse() {
     handleCreator();
   },[selectedCourse])
 
-  const checkEnrollment = ()=>{
-    const verify = userData?.enrolledCourses?.some(c=>
-    (typeof c === "string" ? c : c._id).toString() === courseId?.toString());
-    if(verify){
-      setIsEnrolled(true);
-    }
+  const checkEnrollment = useCallback(() => {
+  const verify = userData?.enrolledCourses?.some((c) => 
+    (typeof c === "string" ? c : c._id).toString() === courseId?.toString()
+  );
+  
+  if (verify) {
+    setIsEnrolled(true);
   }
+}, [userData, courseId]);
 
-  useEffect(()=>{
-    fetchCourseData();
-    checkEnrollment();
-  },[courseData,courseId,userData])
+  useEffect(() => {
+  fetchCourseData();
+  checkEnrollment();
+}, [fetchCourseData, checkEnrollment]);
 
   useEffect(()=>{
     if(creatorData?._id && courseData.length > 0){
