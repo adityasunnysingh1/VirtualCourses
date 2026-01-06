@@ -1,3 +1,5 @@
 import app from '../index.js';
 
-export default app;
+export default function handler(request, response) {
+  return app(request, response);
+}
