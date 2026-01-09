@@ -1,4 +1,4 @@
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { uploadOnCloudinary } from "../config/cloudinary.js";
 import Lecture from "../models/lectureModel.js";
 import Course from "../models/courseModel.js";
 import User from "../models/userModel.js";
