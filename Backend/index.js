@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.use(cors({
     origin: [
         "http://localhost:5173", 
-        "https://virtual-courses-two.vercel.app", //Vercel Frontend URL
+        "https://virtual-courses-frontend.vercel.app/", //Vercel Frontend URL
     ],
     credentials: true
 }));
