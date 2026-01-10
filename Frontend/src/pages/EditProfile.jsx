@@ -18,26 +18,37 @@ const EditProfileForm = ({ initialData }) => {
   const [loading, setLoading] = useState(false);
 
   const handleEditProfile = async () => {
-    setLoading(true);
-    try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("description", description);
-      if (photoUrl) {
-        formData.append("photoUrl", photoUrl);
-      }
+  setLoading(true);
+  try {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    if (photoUrl) {
+      formData.append("photoUrl", photoUrl);
+    } 
 
-      const result = await axios.post(`${serverUrl}/api/user/profile`, formData, { withCredentials: true });
-      dispatch(setUserData(result.data));
-      setLoading(false);
-      navigate("/profile");
-      toast.success("Profile Updated Successfully");
-    } catch (error) {
-      setLoading(false);
-      console.log(error);
-      toast.error(error.response?.data?.message || "Something went wrong");
-    }
+    const token = localStorage.getItem("token"); 
+    const result = await axios.post(
+      `${serverUrl}/api/user/profile`, 
+      formData, 
+      { 
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
+    );
+
+    dispatch(setUserData(result.data));
+    setLoading(false);
+    navigate("/profile");
+    toast.success("Profile Updated Successfully");
+  } catch (error) {
+    setLoading(false);
+    console.log(error);
+    toast.error(error.response?.data?.message || "Something went wrong");
   }
+};
 
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-100 px-4 py-10'>
