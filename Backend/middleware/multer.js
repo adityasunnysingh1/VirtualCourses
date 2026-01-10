@@ -12,7 +12,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "VirtualCourses",
-    resource_type: "auto", // Automatically detect image/video
+    resource_type: "image", // Automatically detect image/video
     allowedFormats: ["jpg", "png", "jpeg"],
   },
 });
