@@ -21,24 +21,27 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const handleLogin = async()=>{
-    setLoading(true)
-    try {
-      const result = await axios.post(`${serverUrl}/api/auth/login,{
-        email,
-        password
-        }, {withCredentials:true}`);
-        localStorage.setItem("token", result.data.token);
-        dispatch(setUserData(result.data));
-        setLoading(false);
-        toast.success("Login Successfully");
-        navigate("/");
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-      toast.error(error.message);
-    }
+ const handleLogin = async () => {
+  setLoading(true);
+  try {
+    const result = await axios.post(
+      `${serverUrl}/api/auth/login`, 
+      { email, password }, 
+      { withCredentials: true }
+    );
+
+    localStorage.setItem("token", result.data.token);
+    
+    dispatch(setUserData(result.data));
+    setLoading(false);
+    toast.success("Login Successfully");
+    navigate("/");
+  } catch (error) {
+    console.log(error);
+    setLoading(false);
+    toast.error(error.response?.data?.message || "Login Failed");
   }
+};
 
 const googleLogin = async () => {
   try {
