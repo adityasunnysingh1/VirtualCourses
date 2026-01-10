@@ -28,6 +28,7 @@ function Login() {
         email,
         password
         }, {withCredentials:true}`);
+        localStorage.setItem("token", result.data.token);
         dispatch(setUserData(result.data));
         setLoading(false);
         toast.success("Login Successfully");
@@ -39,24 +40,30 @@ function Login() {
     }
   }
 
-  const googleLogin = async () => {
-      try {
-        const response = await signInWithPopup(auth,provider);
-        let user = response.user;
-        let name = user.displayName;
-        let email = user.email;
-        let role = "";
-        const result = await axios.post(`${serverUrl}/api/auth/googleauth`, 
-          {name, email, role},
-          {withCredentials:true})
-          dispatch(setUserData(result.data));
-          navigate("/");
-          toast.success("Login successfully");
-      } catch (error) {
-        console.log(error);
-        toast.error(error.response.data.message)
-      }
-    }
+const googleLogin = async () => {
+  try {
+    const response = await signInWithPopup(auth, provider);
+    let user = response.user;
+    let name = user.displayName;
+    let email = user.email;
+    let role = ""; 
+
+    const result = await axios.post(
+      `${serverUrl}/api/auth/googleauth`,
+      { name, email, role },
+      { withCredentials: true }
+    );
+
+    localStorage.setItem("token", result.data.token);
+
+    dispatch(setUserData(result.data));
+    navigate("/");
+    toast.success("Login successfully");
+  } catch (error) {
+    console.log(error);
+    toast.error(error.response?.data?.message || "Google Login Failed");
+  }
+};
   return (
     <div className="bg-[#dddbdb] w-full h-full flex items-center justify-center">
     
