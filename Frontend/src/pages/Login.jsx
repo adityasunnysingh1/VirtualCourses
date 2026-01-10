@@ -58,7 +58,6 @@ const googleLogin = async () => {
     );
 
     localStorage.setItem("token", result.data.token);
-
     dispatch(setUserData(result.data.user));
     navigate("/");
     toast.success("Login successfully");
