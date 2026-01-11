@@ -1,4 +1,4 @@
-import React from "react";
+
 import about from "../assets/ai_student.png";
 import { TfiLayoutLineSolid } from "react-icons/tfi";
 import { BsPatchCheckFill } from "react-icons/bs";
