@@ -50,7 +50,7 @@ function EditCourse() {
       // This prevents the "cascading update" warning and saves a re-render
       if (courseData) {
         setTitle(courseData.title || "");
-        setSubTitle(courseData.subtitle || "");
+        setSubTitle(courseData.subTitle || "");
         setDescription(courseData.description || "");
         setCategory(courseData.category || "");
         setLevel(courseData.level || "");
