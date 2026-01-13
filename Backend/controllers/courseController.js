@@ -58,7 +58,8 @@ export const editCourse = async(req,res)=>{
         let thumbnail = course.thumbnail; 
 
         if(req.file){
-            thumbnail = req.file.path; 
+            const uploadResult = await uploadOnCloudinary(req.file.path);
+            thumbnail = uploadResult.secure_url; 
         }
 
         const updateData = {title, subTitle, description, category, level, isPublished, price, thumbnail}
