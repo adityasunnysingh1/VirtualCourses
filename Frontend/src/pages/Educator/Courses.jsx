@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { BsArrowReturnLeft } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import img from "../../assets/empty_folder.png";
 import { FaEdit } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { serverUrl } from "../../App";
+import { serverUrl } from "../../App.jsx";
 import axios from "axios";
-import { setCreatorCourseData } from "../../redux/courseSlice";
+import { setCreatorCourseData } from "../../redux/courseSlice.js";
 
 
 function Courses() {

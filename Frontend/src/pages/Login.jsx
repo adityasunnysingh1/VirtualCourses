@@ -5,13 +5,13 @@ import { FaEye } from "react-icons/fa";
 import { HiEyeSlash } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
-import { serverUrl } from "../App";
+import { serverUrl } from "../App.jsx";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { setUserData } from "../redux/userSlice";
+import { setUserData } from "../redux/userSlice.js";
 import { signInWithPopup } from "firebase/auth";
-import { auth, provider } from "../utils/firebase";
+import { auth, provider } from "../utils/firebase.jsx";
 import { BsArrowReturnLeft } from "react-icons/bs";
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
