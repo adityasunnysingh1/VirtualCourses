@@ -15,6 +15,9 @@ function Courses() {
   const {userData} = useSelector(state=>state.user);
   const {creatorCourseData} = useSelector(state=>state.course);
   useEffect(()=>{
+         if(!userData){
+          return;
+         }
          const creatorCourses = async()=>{
           try {
               const result = await axios.get(`${serverUrl}/api/course/getcreator`,{withCredentials:true});
