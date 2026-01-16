@@ -29,8 +29,6 @@ function Login() {
       { email, password }, 
       { withCredentials: true }
     );
-
-    localStorage.setItem("token", result.data.token);
     
     dispatch(setUserData(result.data.user));
     setLoading(false);
@@ -57,7 +55,6 @@ const googleLogin = async () => {
       { withCredentials: true }
     );
 
-    localStorage.setItem("token", result.data.token);
     dispatch(setUserData(result.data.user));
     navigate("/");
     toast.success("Login successfully");
