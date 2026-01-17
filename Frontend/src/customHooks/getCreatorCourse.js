@@ -9,7 +9,7 @@ const useGetCreatorCourse = () => {
     const {userData} = useSelector(state=>state.user)
   return (
     useEffect(()=>{
-       if (!userData || !userData.isAuth) return;
+       if (!userData) return;
        const creatorCourses = async()=>{
         try {
             const result = await axios.get(`${serverUrl}/api/course/getcreator`,{withCredentials:true});
