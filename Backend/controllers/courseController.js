@@ -20,7 +20,7 @@ export const createCourse = async(req,res)=>{
         const course = await Course.create({
             title,
             category,
-            creator: req.userId
+            creator: req.id
         })
         return res.status(201).json(course)
     } catch (error) {
