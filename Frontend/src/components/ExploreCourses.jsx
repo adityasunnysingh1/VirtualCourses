@@ -31,7 +31,7 @@ function ExploreCourses() {
       {/* 2. Wrap the button with ElectricBorder */}
       <div className="mt-[40px]"> {/* Moved margin here to separate border from text above */}
         <ElectricBorder
-          color="#1a478e"    // Dark blue color from your screenshot
+          color="#04000f"    // Dark blue color from your screenshot
           speed={2}          // Adjust speed
           chaos={0.05}       // Low chaos for a stable look
           thickness={2}      // Border thickness
