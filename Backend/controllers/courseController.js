@@ -66,10 +66,11 @@ export const editCourse = async (req, res) => {
         const userId = (req.id || req.userId).toString();
         const creatorId = course.creator.toString();
 
-        if (creatorId !== userId) {
-            console.log(`⛔ Blocked! Owner: ${creatorId} | User: ${userId}`);
-            return res.status(403).json({ message: "You don't have permission to edit this course" });
-        }
+       if (creatorId !== userId) {
+        return res.status(403).json({ 
+            message: `DEBUG ERROR: Owner=${creatorId} | You=${userId}` 
+        });
+    }
 
         let thumbnail = course.thumbnail;
         if (req.file) {
