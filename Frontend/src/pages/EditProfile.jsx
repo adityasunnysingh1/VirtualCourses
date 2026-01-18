@@ -50,8 +50,9 @@ const EditProfileForm = ({ initialData }) => {
 
   return (
     <div className='relative min-h-screen flex items-center justify-center bg-black overflow-hidden px-4 py-10'>
-      
-      <div className="absolute inset-0 z-0">
+
+      <div className='relative z-10 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-2xl p-8 max-w-xl w-full text-white'>
+        <div className="absolute inset-0 z-0">
         <Iridescence 
           color={[0.1, 0.1, 0.1]} 
           mouseReact={false} 
@@ -59,9 +60,6 @@ const EditProfileForm = ({ initialData }) => {
           speed={1.0} 
         />
       </div>
-
-      <div className='relative z-10 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-2xl p-8 max-w-xl w-full text-white'>
-        
         <BsArrowReturnLeft 
             className="absolute top-[5%] left-[5%] w-[22px] h-[22px] cursor-pointer text-gray-300 hover:text-white transition" 
             onClick={() => navigate("/profile")} 

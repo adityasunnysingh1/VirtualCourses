@@ -38,8 +38,9 @@ function Profile() {
 
   return (
     <div className="relative min-h-screen px-4 py-10 flex items-center justify-center bg-black overflow-hidden">
-      
-      <div className="absolute inset-0 z-0">
+
+      <div className="relative z-10 bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl rounded-2xl p-8 max-w-xl w-full text-white">
+        <div className="absolute inset-0 z-0">
         <Iridescence 
           color={[0.1, 0.1, 0.1]} 
           mouseReact={false} 
@@ -47,9 +48,6 @@ function Profile() {
           speed={1.0} 
         />
       </div>
-
-      <div className="relative z-10 bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl rounded-2xl p-8 max-w-xl w-full text-white">
-        
         <BsArrowReturnLeft
           className="absolute top-[8%] left-[5%] w-[22px] h-[22px] cursor-pointer hover:scale-110 transition text-gray-300 hover:text-white"
           onClick={() => navigate("/")}
