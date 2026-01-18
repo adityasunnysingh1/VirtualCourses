@@ -58,31 +58,38 @@ export const editCourse = async (req, res) => {
         const { courseId } = req.params;
         const { title, subTitle, description, category, level, isPublished, price } = req.body;
 
-        let course = await Course.findById(courseId);
+        const course = await Course.findById(courseId);
         if (!course) {
             return res.status(404).json({ message: "Course not found" });
         }
 
-        let thumbnail = course.thumbnail;
+        const userId = (req.id || req.userId).toString();
+        const creatorId = course.creator.toString();
 
+        if (creatorId !== userId) {
+            console.log(`⛔ Blocked! Owner: ${creatorId} | User: ${userId}`);
+            return res.status(403).json({ message: "You don't have permission to edit this course" });
+        }
+
+        let thumbnail = course.thumbnail;
         if (req.file) {
             if (course.thumbnail) {
-                 const publicId = getPublicIdFromUrl(course.thumbnail);
-                 if (publicId) {
-                     await cloudinary.uploader.destroy(publicId);
-                 }
+                const publicId = getPublicIdFromUrl(course.thumbnail);
+                if (publicId) {
+                    await cloudinary.uploader.destroy(publicId);
+                }
             }
-            thumbnail = req.file.path; 
+            thumbnail = req.file.path;
         }
 
         const updateData = { title, subTitle, description, category, level, isPublished, price, thumbnail };
+        const updatedCourse = await Course.findByIdAndUpdate(courseId, updateData, { new: true });
 
-        course = await Course.findByIdAndUpdate(courseId, updateData, { new: true });
-        return res.status(200).json(course);
+        return res.status(200).json({ message: "Course updated successfully", course: updatedCourse });
 
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ message: `Edit course error ${error.message}` });
+        return res.status(500).json({ message: "Failed to edit course" });
     }
 };
 
