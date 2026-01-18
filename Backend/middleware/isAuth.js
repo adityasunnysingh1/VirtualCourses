@@ -22,7 +22,7 @@ const isAuth = async (req, res, next) => {
     if(!decoded){
     return res.status(401).json({message:"Invalid Token"});
     }
-    req.userId = decoded.userId || decoded.id || decoded.userID; 
+    req.id = decoded.userId || decoded.id || decoded.userID || decoded._id;
 
     next();
   } catch (error) {
