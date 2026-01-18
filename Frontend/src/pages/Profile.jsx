@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { setUserData } from "../redux/userSlice.js";
 import { serverUrl } from "../App.jsx";
-import Iridescence from "../components/Iridescence";
+import Iridescence from "../components/Iridescence.jsx";
 
 function Profile() {
   const { userData } = useSelector((state) => state.user);
