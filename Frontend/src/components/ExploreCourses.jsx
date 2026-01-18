@@ -8,6 +8,7 @@ import { SiGoogledataproc } from "react-icons/si";
 import { BsClipboardDataFill } from "react-icons/bs";
 import { SiOpenaigym } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
+import ElectricBorder from "./ElectricBorder.jsx";
 
 function ExploreCourses() {
   const navigate = useNavigate();
