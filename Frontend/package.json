@@ -22,7 +22,8 @@
     "react-spinners": "^0.17.0",
     "react-toastify": "^11.0.5",
     "recharts": "^3.6.0",
-    "tailwindcss": "^4.1.17"
+    "tailwindcss": "^4.1.17",
+    "three": "^0.182.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
