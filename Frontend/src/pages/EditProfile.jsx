@@ -49,29 +49,31 @@ const EditProfileForm = ({ initialData }) => {
   };
 
   return (
-    <div className='relative min-h-screen flex items-center justify-center bg-black overflow-hidden px-4 py-10'>
+    // 1. MAIN WRAPPER: Changed bg-black to bg-white
+    <div className='relative min-h-screen flex items-center justify-center bg-white overflow-hidden px-4 py-10'>
 
-      {/* CARD CONTAINER: Added 'overflow-hidden' to keep animation inside corners */}
-      <div className='relative z-10 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-2xl max-w-xl w-full text-white overflow-hidden'>
+      {/* 2. CARD CONTAINER: Light Glass Style (bg-white/80, text-gray-800) */}
+      <div className='relative z-10 bg-white/80 backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl max-w-xl w-full text-gray-800 overflow-hidden'>
         
-        {/* 1. BACKGROUND LAYER (Absolute, z-0) */}
+        {/* 3. BACKGROUND ANIMATION: Adjusted color to show on white */}
         <div className="absolute inset-0 z-0">
           <Iridescence 
-            color={[0.1, 0.1, 0.1]} 
+            color={[0.9, 0.94, 1]} // Very light blue tint (visible on white)
             mouseReact={false} 
             amplitude={0.1} 
             speed={1.0} 
           />
         </div>
 
+        {/* 4. CONTENT LAYER */}
         <div className="relative z-10 p-8">
             
             <BsArrowReturnLeft 
-              className="absolute top-[5%] left-[5%] w-[22px] h-[22px] cursor-pointer text-gray-300 hover:text-white transition" 
+              className="absolute top-[5%] left-[5%] w-[22px] h-[22px] cursor-pointer text-gray-400 hover:text-gray-800 transition" 
               onClick={() => navigate("/profile")} 
             />
             
-            <h2 className='text-2xl font-bold text-center mb-6 text-white'>Edit Profile</h2>
+            <h2 className='text-2xl font-bold text-center mb-6 text-gray-800'>Edit Profile</h2>
             
             <form className='space-y-5' onSubmit={(e) => e.preventDefault()}>
               
@@ -79,54 +81,55 @@ const EditProfileForm = ({ initialData }) => {
                 {initialData.photoUrl ? (
                   <img
                     src={initialData.photoUrl}
-                    className="w-24 h-24 rounded-full object-cover border-4 border-white/20 shadow-lg"
+                    className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
                     alt="profile"
                   />
                 ) : (
-                  <div className="w-24 h-24 rounded-full text-white flex items-center justify-center text-[30px] border-2 bg-blue-600 border-white/20 shadow-lg">
+                  <div className="w-24 h-24 rounded-full text-white flex items-center justify-center text-[30px] border-2 bg-blue-600 border-white shadow-lg">
                     {initialData.name?.slice(0, 1).toUpperCase()}
                   </div>
                 )}
               </div>
 
               <div>
-                <label htmlFor="image" className='text-sm font-medium text-gray-300'>Select Avatar</label>
+                <label htmlFor="image" className='text-sm font-medium text-gray-600'>Select Avatar</label>
                 <input 
                     id='image' 
                     type='file' 
                     accept='image/*'
-                    className='w-full px-4 py-2 mt-1 border border-white/10 rounded-md text-sm bg-white/5 text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-500' 
+                    // Updated Input Styles for Light Mode
+                    className='w-full px-4 py-2 mt-1 border border-gray-300 rounded-md text-sm bg-gray-50 text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-500' 
                     onChange={(e) => setPhotoUrl(e.target.files[0])} 
                 />
               </div>
 
               <div>
-                <label htmlFor="name" className='text-sm font-medium text-gray-300'>UserName</label>
+                <label htmlFor="name" className='text-sm font-medium text-gray-600'>UserName</label>
                 <input 
                     id='name' 
                     type='text'
-                    className='w-full px-4 py-2 mt-1 border border-white/10 rounded-md text-sm bg-white/5 text-white focus:outline-none focus:border-blue-500' 
+                    className='w-full px-4 py-2 mt-1 border border-gray-300 rounded-md text-sm bg-gray-50 text-gray-900 focus:outline-none focus:border-blue-500' 
                     onChange={(e) => setName(e.target.value)} 
                     value={name} 
                 />
               </div>
 
               <div>
-                <label className='text-sm font-medium text-gray-300'>Email</label>
+                <label className='text-sm font-medium text-gray-600'>Email</label>
                 <input 
                     readOnly 
                     type='text' 
                     value={initialData.email}
-                    className='w-full px-4 py-2 mt-1 border border-white/10 rounded-md text-sm bg-white/10 text-gray-400 cursor-not-allowed' 
+                    className='w-full px-4 py-2 mt-1 border border-gray-200 rounded-md text-sm bg-gray-100 text-gray-500 cursor-not-allowed' 
                 />
               </div>
 
               <div>
-                <label className='text-sm font-medium text-gray-300'>Bio</label>
+                <label className='text-sm font-medium text-gray-600'>Bio</label>
                 <textarea 
                     placeholder="Tell us about yourself" 
                     rows={3}
-                    className='w-full mt-1 px-4 py-2 border border-white/10 rounded-md resize-none bg-white/5 text-white focus:outline-none focus:border-blue-500' 
+                    className='w-full mt-1 px-4 py-2 border border-gray-300 rounded-md resize-none bg-gray-50 text-gray-900 focus:outline-none focus:border-blue-500' 
                     onChange={(e) => setDescription(e.target.value)} 
                     value={description} 
                 />
@@ -152,8 +155,8 @@ function EditProfile() {
 
   if (!userData) {
     return (
-      <div className='min-h-screen flex items-center justify-center bg-black'>
-         <ClipLoader size={50} color="white"/>
+      <div className='min-h-screen flex items-center justify-center bg-white'>
+         <ClipLoader size={50} color="black"/>
       </div>
     );
   }
