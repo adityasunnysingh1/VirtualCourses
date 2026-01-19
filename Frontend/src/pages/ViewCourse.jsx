@@ -155,8 +155,8 @@ function ViewCourse() {
       
       {/* 3. OUTER PATTERN: Fixed position */}
       <StripedPattern 
-        width={40} 
-        height={40} 
+        width={30} 
+        height={30} 
         className="fixed inset-0 z-0 opacity-20 text-gray-300" 
       />
 
@@ -165,10 +165,10 @@ function ViewCourse() {
         
         {/* 5. INNER PATTERN: Absolute position inside the card */}
         <StripedPattern 
-          width={30} 
-          height={30} 
+          width={20} 
+          height={20} 
           direction="right" // Different direction for visual distinction
-          className="absolute inset-0 z-0 opacity-30 text-gray-200" 
+          className="absolute inset-0 z-0 opacity-30 text-gray-500" 
         />
 
         {/* 6. CONTENT WRAPPER: Added relative z-10 p-6 space-y-6 so content sits ON TOP */}
@@ -189,11 +189,10 @@ function ViewCourse() {
               <div className='flex items-start flex-col justify-start'>
               <div className='text-yellow-500 font-medium flex gap-2'>
                 <span className='flex items-center justify-center gap-1'><FaStar/>{avgRating}</span>
-                <span className='text-gray-400'>(1,200 Reviews)</span>
               </div>
               <div>
                 <span className='text-xl font-semibold text-black'>₹{selectedCourse?.price}</span>{""}
-                <span className='line-through text-sm text-gray-400'>₹599</span>
+                <span className='line-through text-sm text-gray-400'>₹1999</span>
               </div>
               <ul className='text-sm text-gray-700 space-y-1 pt-2'>
                 <li>✅10+ hours of video content</li>
