@@ -48,9 +48,9 @@ function Home() {
         flex items-center justify-center gap-3 flex-wrap">
           
           <ElectricBorder 
-            color="#FFFFFF" 
-            speed={2} 
-            chaos={0.1} 
+            color="#7df9ff" 
+            speed={2.9} 
+            chaos={0.05} 
             borderRadius={10}
           >
             <button 
