@@ -36,9 +36,9 @@ function AllCourses() {
       {/* 3. BACKGROUND: Flickering Grid (Fixed Position) */}
       <FlickeringGrid
         className="fixed inset-0 z-0 h-full w-full"
-        squareSize={4}
+        squareSize={6}
         gridGap={6}
-        color="#9CA3AF" // Subtle gray color for the squares
+        color="#455060" 
         maxOpacity={0.15}
         flickerChance={0.1}
         height={window.innerHeight}
