@@ -11,6 +11,7 @@ import Footer from "../components/Footer.jsx";
 import About from "../components/About.jsx";
 import ReviewPage from "../components/ReviewPage.jsx";
 import ElectricBorder from "../components/ElectricBorder.jsx"; 
+import BlurText from "../components/BlurText.jsx"; 
 
 function Home() {
   const navigate = useNavigate();
@@ -21,13 +22,27 @@ function Home() {
         <img src={home_page} alt="home_page" 
         className="object-cover md:object-fill w-full lg:h-full h-[50vh]"/>
 
-        <span className="lg:text-[70px] absolute md:text-[40px] 
-        lg:top-[10%] top-[15%] w-full flex items-center justify-center">
-        Grow your skills to advance</span>
+        {/* 1. "Grow your skills to advance" with BlurText & Greyish-Green color */}
+        <div className="absolute lg:top-[10%] top-[15%] w-full flex items-center justify-center">
+          <BlurText
+            text="Grow your skills to advance"
+            delay={50}
+            animateBy="letters"
+            direction="bottom"
+            className="lg:text-[70px] text-[25px] md:text-[40px] text-[#5f7363]" // #5f7363 is a sage/greyish-green
+          />
+        </div>
         
-        <span className="lg:text-[70px] text-[20px] md:text-[40px]
-        absolute lg:top-[18%] top-[20%] w-full flex items-center
-        justify-center text-white font-bold">Your career path</span>
+        {/* 2. "Your career path" with BlurText */}
+        <div className="absolute lg:top-[18%] top-[20%] w-full flex items-center justify-center">
+          <BlurText
+            text="Your career path"
+            delay={150} // Added slightly more delay so it appears after the first line
+            animateBy="letters"
+            direction="bottom"
+            className="lg:text-[70px] text-[20px] md:text-[40px] text-white font-bold"
+          />
+        </div>
 
         <div className="absolute lg:top-[30%] top-[75%] md:top-[80%] w-full
         flex items-center justify-center gap-3 flex-wrap">
