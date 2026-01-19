@@ -4,7 +4,7 @@ import { BsArrowReturnLeft } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import ai from "../assets/ai_search_icon.png";
 import { useSelector } from 'react-redux';
-import TiltedCard from '../components/TiltedCard';
+import TiltedCard from '../components/TiltedCard.jsx';
 
 function AllCourses() {
   const navigate = useNavigate();
@@ -63,39 +63,51 @@ function AllCourses() {
       </aside>
 
       {/* Main Content Grid */}
-      <main className='w-full transition-all duration-300 py-[130px] md:pl-[300px] flex items-start justify-center md:justify-start flex-wrap gap-6 px-[20px]'>
+      <main className='w-full transition-all duration-300 py-[130px] md:pl-[300px] flex items-start justify-center md:justify-start flex-wrap gap-8 px-[20px]'>
         {filterCourses?.map((course, index) => (
-          // This div is the main card container with original styling
+          // Wrapper for positioning in the grid
           <div 
             key={course._id || index} 
-            className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer w-full md:w-[300px]"
+            className="w-full md:w-[300px]" // Set the specific width here
             onClick={() => navigate(`/course/${course._id}`)}
           >
-            {/* Tilted Card used ONLY for the image header */}
-            <div className="p-2">
-              <TiltedCard
-                imageSrc={course.thumbnail}
-                altText={course.title}
-                containerHeight="220px"
-                containerWidth="100%"
-                imageHeight="100%"
-                imageWidth="100%"
-                rotateAmplitude={25}
-                scaleOnHover={1.1}
-                showMobileWarning={false}
-                showTooltip={false}
-                displayOverlayContent={false} // No overlay, content is below
-              />
-            </div>
-
-            {/* Standard flat content section below the image */}
-            <div className="p-5 flex flex-col gap-3">
-              <h3 className="font-bold text-lg text-gray-900 line-clamp-2 leading-tight">{course.title}</h3>
-              <div className="flex justify-between items-center mt-2">
-                <span className="text-sm font-medium text-gray-500 bg-gray-100 px-3 py-1 rounded-full">{course.category}</span>
-                <span className="font-bold text-green-600 text-lg">₹{course.price}</span>
+            {/* The TiltedCard now wraps the ENTRIE card design */}
+            <TiltedCard
+              containerHeight="auto" // Auto height so it wraps text
+              containerWidth="100%"
+              rotateAmplitude={22}
+              scaleOnHover={1.1}
+              showMobileWarning={false}
+              showTooltip={false}
+            >
+              {/* --- START OF YOUR CARD DESIGN --- */}
+              <div className="bg-white rounded-2xl shadow-md overflow-hidden h-full border border-gray-100 select-none">
+                {/* Image Section */}
+                <div className="h-[200px] w-full overflow-hidden">
+                  <img 
+                    src={course.thumbnail} 
+                    alt={course.title} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                
+                {/* Text Content Section */}
+                <div className="p-5 flex flex-col gap-3">
+                  <h3 className="font-bold text-lg text-gray-900 line-clamp-2 leading-tight">
+                    {course.title}
+                  </h3>
+                  <div className="flex justify-between items-center mt-2">
+                    <span className="text-xs font-medium text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                      {course.category}
+                    </span>
+                    <span className="font-bold text-green-600 text-lg">
+                      ₹{course.price}
+                    </span>
+                  </div>
+                </div>
               </div>
-            </div>
+              {/* --- END OF YOUR CARD DESIGN --- */}
+            </TiltedCard>
           </div>
         ))}
       </main>

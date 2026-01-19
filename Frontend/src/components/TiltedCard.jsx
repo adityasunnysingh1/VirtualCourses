@@ -8,19 +8,14 @@ const springValues = {
 };
 
 export default function TiltedCard({
-  imageSrc,
-  altText = 'Tilted card image',
-  captionText = '',
-  containerHeight = '300px',
+  children,
+  containerHeight = '100%',
   containerWidth = '100%',
-  imageHeight = '300px',
-  imageWidth = '300px',
-  scaleOnHover = 1.1,
+  scaleOnHover = 1.05,
   rotateAmplitude = 14,
   showMobileWarning = true,
-  showTooltip = true,
-  overlayContent = null,
-  displayOverlayContent = false
+  showTooltip = false,
+  captionText = ''
 }) {
   const ref = useRef(null);
   const x = useMotionValue(0);
@@ -74,7 +69,7 @@ export default function TiltedCard({
   return (
     <figure
       ref={ref}
-      className="relative w-full h-full perspective:midrange flex flex-col items-center justify-center"
+      className="relative w-full h-full perspective-midrange flex flex-col items-center justify-center z-10"
       style={{
         height: containerHeight,
         width: containerWidth
@@ -84,38 +79,25 @@ export default function TiltedCard({
       onMouseLeave={handleMouseLeave}
     >
       {showMobileWarning && (
-        <div className="absolute top-4 text-center text-sm block sm:hidden">
+        <div className="absolute top-4 text-center text-sm block sm:hidden text-white z-50 bg-black/50 px-2 rounded">
           This effect is not optimized for mobile. Check on desktop.
         </div>
       )}
 
+      {/* The tilting container */}
       <motion.div
-        className="relative transform-3d"
+        className="relative w-full h-full transform-3d"
         style={{
-          width: imageWidth,
-          height: imageHeight,
           rotateX,
           rotateY,
           scale
         }}
       >
-        <motion.img
-          src={imageSrc}
-          alt={altText}
-          className="absolute top-0 left-0 object-cover rounded-[15px] will-change-transform transform-[translateZ(0)]"
-          style={{
-            width: imageWidth,
-            height: imageHeight
-          }}
-        />
-
-        {displayOverlayContent && overlayContent && (
-          <motion.div className="absolute top-0 left-0 z-2 will-change-transform transform-[translateZ(30px)]">
-            {overlayContent}
-          </motion.div>
-        )}
+        {/* Render whatever content is passed inside */}
+        {children}
       </motion.div>
 
+      {/* Tooltip (Optional) */}
       {showTooltip && (
         <motion.figcaption
           className="pointer-events-none absolute left-0 top-0 rounded-[4px] bg-white px-[10px] py-[4px] text-[10px] text-[#2d2d2d] opacity-0 z-3 hidden sm:block"
