@@ -168,7 +168,7 @@ function ViewCourse() {
           width={20} 
           height={20} 
           direction="right" // Different direction for visual distinction
-          className="absolute inset-0 z-0 opacity-30 text-gray-500" 
+          className="absolute inset-0 z-0 opacity-30 text-gray-400" 
         />
 
         {/* 6. CONTENT WRAPPER: Added relative z-10 p-6 space-y-6 so content sits ON TOP */}
