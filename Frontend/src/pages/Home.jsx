@@ -37,9 +37,9 @@ function Home() {
         <div className="absolute lg:top-[18%] top-[20%] w-full flex items-center justify-center">
           <BlurText
             text="Your career path"
-            delay={150} // Added slightly more delay so it appears after the first line
+            delay={100} // Added slightly more delay so it appears after the first line
             animateBy="letters"
-            direction="bottom"
+            direction="top"
             className="lg:text-[70px] text-[20px] md:text-[40px] text-white font-bold"
           />
         </div>
