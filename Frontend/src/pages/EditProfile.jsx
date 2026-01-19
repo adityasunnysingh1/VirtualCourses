@@ -85,9 +85,9 @@ const EditProfileForm = ({ initialData }) => {
 
         <form onSubmit={handleEditProfile}>
           
-          {/* Avatar Section */}
+          {/* Avatar Display Section */}
           <div className="flex flex-col items-center text-center">
-            <div className="relative group cursor-pointer w-24 h-24">
+            <div className="w-24 h-24">
               {preview ? (
                 <img
                   src={preview}
@@ -99,28 +99,26 @@ const EditProfileForm = ({ initialData }) => {
                   {initialData.name?.slice(0, 1).toUpperCase()}
                 </div>
               )}
-              
-              {/* Hover Overlay to indicate editing */}
-              <label 
-                htmlFor="photo-upload" 
-                className="absolute inset-0 flex items-center justify-center bg-black/40 text-white text-xs font-medium opacity-0 group-hover:opacity-100 rounded-full transition duration-200"
-              >
-                Change
-              </label>
-              <input 
-                id="photo-upload" 
-                type="file" 
-                accept="image/*" 
-                className="hidden" 
-                onChange={handleFileChange} 
-              />
             </div>
 
             <h2 className="text-2xl font-bold mt-4 text-gray-900">Edit Profile</h2>
           </div>
 
-          {/* Form Fields Section - Styled to match Profile list spacing */}
+          {/* Form Fields Section */}
           <div className="mt-6 space-y-4">
+
+            {/* RESTORED: Explicit Image Upload Field */}
+            <div className="flex flex-col gap-1">
+               <label htmlFor="image-upload" className="text-sm font-semibold text-gray-600 mb-1">Change Avatar</label>
+               <input 
+                 id="image-upload" 
+                 type="file" 
+                 accept="image/*" 
+                 onChange={handleFileChange}
+                 // Styled to match the other inputs in this layout
+                 className="w-full text-sm text-gray-600 border border-gray-300 rounded-lg cursor-pointer bg-white/50 focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-l-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-500"
+               />
+            </div>
             
             {/* Username */}
             <div className="flex flex-col gap-1">
@@ -138,7 +136,7 @@ const EditProfileForm = ({ initialData }) => {
               <label className="text-sm font-semibold text-gray-600">Email</label>
               <input 
                 type="text" 
-                value={initialData?.email} 
+                value={initialData.email} 
                 readOnly
                 className="w-full px-3 py-2 border border-gray-200 rounded-lg text-gray-500 bg-gray-100 cursor-not-allowed"
               />
