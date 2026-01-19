@@ -155,7 +155,7 @@ function ViewCourse() {
       <div className='flex flex-col md:flex-row gap-6'>
          {/* Thumbnail */}
          <div className='w-full md:w-1/2'>
-          <BsArrowReturnLeft className='text-[black] w-22px h-22px cursor-pointer' onClick={()=>navigate("/")}/>
+          <BsArrowReturnLeft className='text-[black] w-22px h-22px cursor-pointer' onClick={()=>navigate("/allcourses")}/>
           {selectedCourse?.thumbnail ? <img src={selectedCourse?.thumbnail} alt='' className='rounded-xl w-full object-cover'/>
            : <img src={img} alt='' className='rounded-xl w-full object-cover'/>}
          </div>
