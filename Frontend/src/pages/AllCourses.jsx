@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import ai from "../assets/ai_search_icon.png";
 import { useSelector } from 'react-redux';
 import TiltedCard from '../components/TiltedCard.jsx';
+import { FlickeringGrid } from '../components/FlickeringGrid.jsx'; // 1. Import Grid
 
 function AllCourses() {
   const navigate = useNavigate();
@@ -29,7 +30,21 @@ function AllCourses() {
   }, [courseData, category]);
 
   return (
-    <div className='flex min-h-screen bg-gray-50'>
+    // 2. Main Container: Changed bg-gray-50 to bg-white so the grid looks clean
+    <div className='flex min-h-screen bg-white relative overflow-hidden'>
+      
+      {/* 3. BACKGROUND: Flickering Grid (Fixed Position) */}
+      <FlickeringGrid
+        className="fixed inset-0 z-0 h-full w-full"
+        squareSize={4}
+        gridGap={6}
+        color="#9CA3AF" // Subtle gray color for the squares
+        maxOpacity={0.15}
+        flickerChance={0.1}
+        height={window.innerHeight}
+      />
+
+      {/* Nav stays at the top */}
       <Nav />
       
       {/* Mobile Filter Button */}
@@ -62,25 +77,25 @@ function AllCourses() {
         </form>
       </aside>
 
-      {/* Main Content Grid */}
-      <main className='w-full transition-all duration-300 py-[130px] md:pl-[300px] flex items-start justify-center md:justify-start flex-wrap gap-8 px-[20px]'>
+      {/* 4. Main Content: Added relative z-10 to sit ABOVE the grid */}
+      <main className='w-full relative z-10 transition-all duration-300 py-[130px] md:pl-[300px] flex items-start justify-center md:justify-start flex-wrap gap-8 px-[20px]'>
         {filterCourses?.map((course, index) => (
           // Wrapper for positioning in the grid
           <div 
             key={course._id || index} 
-            className="w-full md:w-[300px]" // Set the specific width here
+            className="w-full md:w-[300px]" 
             onClick={() => navigate(`/course/${course._id}`)}
           >
-            {/* The TiltedCard now wraps the ENTRIE card design */}
+            {/* The TiltedCard wrapping the entire card design */}
             <TiltedCard
-              containerHeight="auto" // Auto height so it wraps text
+              containerHeight="auto"
               containerWidth="100%"
-              rotateAmplitude={22}
-              scaleOnHover={1.1}
+              rotateAmplitude={12} // Reduced slightly for better usability
+              scaleOnHover={1.05}
               showMobileWarning={false}
               showTooltip={false}
             >
-              {/* --- START OF YOUR CARD DESIGN --- */}
+              {/* --- CARD DESIGN --- */}
               <div className="bg-white rounded-2xl shadow-md overflow-hidden h-full border border-gray-100 select-none">
                 {/* Image Section */}
                 <div className="h-[200px] w-full overflow-hidden">
@@ -106,7 +121,7 @@ function AllCourses() {
                   </div>
                 </div>
               </div>
-              {/* --- END OF YOUR CARD DESIGN --- */}
+              {/* --- END CARD DESIGN --- */}
             </TiltedCard>
           </div>
         ))}
