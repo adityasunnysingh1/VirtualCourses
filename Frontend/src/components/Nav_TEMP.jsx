@@ -50,14 +50,17 @@ function Nav() {
         navigate("/");
         setShowHam(false);
     }
-};
+  };
 
   return (
     <div>
+      {/* FIX APPLIED HERE: Changed z-10 to z-50.
+         This ensures the Navbar is always above the page content (which is z-10).
+      */}
       <div
         className="w-full h-[70px] fixed top-0 px-[20px] py-[10px]
-      flex items-center justify-between bg-[#00000047]
-      z-10"
+        flex items-center justify-between bg-[#00000047] backdrop-blur-sm
+        z-50"
       >
         <div className="lg:w-[20%] w-[40%] lg:pl-[50px]">
           <img
@@ -103,7 +106,7 @@ function Nav() {
               <div
                 className="absolute top-[120%] right-0 flex items-center flex-col justify-center
   gap-2 text-[16px] rounded-md bg-[white] px-[15px] py-[10px] border-2 border-black 
-  hover:border-white hover:text-white cursor-pointer hover:bg-black min-w-[150px] z-50"
+  hover:border-white hover:text-white cursor-pointer hover:bg-black min-w-[150px] z-50 shadow-xl"
               >
                 <span
                   className="bg-[black] text-white px-[30px] py-[10px] rounded-2xl
@@ -164,7 +167,7 @@ function Nav() {
 
         <div
           className={`fixed top-0 left-0 w-screen h-screen bg-[#000000d6] flex items-center justify-center 
-        flex-col gap-5 z-50 lg:hidden ${
+        flex-col gap-5 z-60 lg:hidden ${
           showHam
             ? "translate-x-0 transition duration-600"
             : "-translate-x-full transition duration-600"
