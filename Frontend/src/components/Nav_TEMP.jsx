@@ -18,10 +18,8 @@ function Nav() {
   const [show, setShow] = useState(false);
   const [showHam, setShowHam] = useState(false);
 
-  // Create Ref for the dropdown
   const dropdownRef = useRef(null);
 
-  // Add Event Listener to detect clicks outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -57,7 +55,7 @@ function Nav() {
       <div
         className="w-full h-[70px] fixed top-0 px-[20px] py-[10px]
         flex items-center justify-between bg-[#00000047] backdrop-blur-md
-        z-100"
+        z-999"
       >
         <div className="lg:w-[20%] w-[40%] lg:pl-[50px]">
           <img
@@ -78,7 +76,6 @@ function Nav() {
             />
           )}
 
-          {/* WRAPPER FOR DROPDOWN LOGIC */}
           <div className="relative" ref={dropdownRef}>
             {userData?.photoUrl ? (
               <img
@@ -162,10 +159,12 @@ function Nav() {
           onClick={() => setShowHam((prev) => !prev)}
         />
 
-        {/* MOBILE MENU */}
+        {/* ✅ FIX 2: Z-Index set to [1000] for the Mobile Menu Overlay.
+           This ensures the black menu screen covers EVERYTHING on the page.
+        */}
         <div
           className={`fixed top-0 left-0 w-screen h-screen bg-[#000000d6] flex items-center justify-center 
-        flex-col gap-5 z-101 lg:hidden ${ 
+        flex-col gap-5 z-1000 lg:hidden ${
           showHam
             ? "translate-x-0 transition duration-600"
             : "-translate-x-full transition duration-600"
