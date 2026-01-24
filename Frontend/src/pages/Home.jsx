@@ -19,7 +19,7 @@ function Home() {
   return (
     <div className="w-full overflow-hidden relative">
       
-      {/* 2. BACKGROUND PATTERN: Cover entire page */}
+      {/* BACKGROUND PATTERN */}
       <DotPattern 
         width={20} 
         height={20} 
@@ -30,9 +30,7 @@ function Home() {
       />
 
       <div className="w-full lg:h-[140vh] h-[70vh] relative z-10">
-        
         <Nav /> 
-
         <img src={home_page} alt="home_page" 
         className="object-cover md:object-fill w-full lg:h-full h-[50vh]"/>
 

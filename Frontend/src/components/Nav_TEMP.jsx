@@ -54,13 +54,10 @@ function Nav() {
 
   return (
     <div>
-      {/* FIX APPLIED HERE: Changed z-10 to z-50.
-         This ensures the Navbar is always above the page content (which is z-10).
-      */}
       <div
         className="w-full h-[70px] fixed top-0 px-[20px] py-[10px]
-        flex items-center justify-between bg-[#00000047] backdrop-blur-sm
-        z-50"
+        flex items-center justify-between bg-[#00000047] backdrop-blur-md
+        z-100"
       >
         <div className="lg:w-[20%] w-[40%] lg:pl-[50px]">
           <img
@@ -165,9 +162,10 @@ function Nav() {
           onClick={() => setShowHam((prev) => !prev)}
         />
 
+        {/* MOBILE MENU */}
         <div
           className={`fixed top-0 left-0 w-screen h-screen bg-[#000000d6] flex items-center justify-center 
-        flex-col gap-5 z-60 lg:hidden ${
+        flex-col gap-5 z-101 lg:hidden ${ 
           showHam
             ? "translate-x-0 transition duration-600"
             : "-translate-x-full transition duration-600"
