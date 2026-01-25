@@ -57,7 +57,7 @@ function CreateLecture() {
       <DotPattern className="absolute inset-0 opacity-50 text-gray-300" />
 
       {/* 2. ELECTRIC BORDER: Wrapping the main content card */}
-      <ElectricBorder className="w-full max-w-2xl">
+      <ElectricBorder className="w-full max-w-2xl" color="#7df99f" speed={2.9} chaos={0.05}>
         <div className='bg-white shadow-xl rounded-xl w-full p-6'>
           {/* Header */}
           <div className='mb-6'>
