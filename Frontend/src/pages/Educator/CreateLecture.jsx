@@ -7,8 +7,8 @@ import { serverUrl } from '../../App.jsx';
 import { setLectureData } from '../../redux/lectureSlice.js';
 import { toast } from 'react-toastify';
 import { FaEdit } from "react-icons/fa";
-import DotPattern from '../../components/DotPattern.jsx';
-import ElectricBorder from '../../components/ElectricBorder.jsx';
+import {DotPattern} from '../../components/DotPattern.jsx';
+import {ElectricBorder} from '../../components/ElectricBorder.jsx';
 import { ClipLoader } from 'react-spinners'; 
 
 function CreateLecture() {
