@@ -22,7 +22,7 @@ export function StripedPattern({
     <svg
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute inset-0 z-0 h-full w-full stroke-neutral-200/50 stroke-[1]",
+        "pointer-events-none absolute inset-0 z-0 h-full w-full stroke-neutral-200/50 stroke-1",
         className
       )}
       xmlns="http://www.w3.org/2000/svg"

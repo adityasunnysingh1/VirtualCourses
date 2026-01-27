@@ -40,13 +40,11 @@ function Dashboard() {
 
       {/* 2. Main Content Container */}
       <div className='w-full px-6 py-10 relative overflow-hidden space-y-10 min-h-screen'>
-        
-        {/* 3. STRIPED PATTERN BACKGROUND */}
         <StripedPattern 
             width={20} 
-          height={20} 
-          direction="right"
-            className="absolute inset-0 -z-10 opacity-50 text-gray-300" 
+            height={20} 
+            direction="top-left"
+            className="absolute inset-0 -z-10 h-full w-full text-gray-400/30" 
         />
 
         {/* Welcome Card */}
