@@ -32,10 +32,17 @@ function CreateCourses() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-10 relative overflow-hidden">
       
-      {/*  DOT PATTERN BACKGROUND */}
-      <DotPattern className="absolute inset-0 -z-10 opacity-60 text-gray-700" />
+      {/* THE FIX */}
+      <DotPattern 
+        className="absolute inset-0 z-0 text-gray-400 opacity-50" 
+        width={16} 
+        height={16} 
+        cx={1} 
+        cy={1} 
+        cr={1} 
+      />
 
-      {/* Main Content Card */}
+      {/* The Card:*/}
       <div
         className="max-w-xl w-[600px] mx-auto p-6 bg-white 
      shadow-xl rounded-md mt-10 relative z-10"
