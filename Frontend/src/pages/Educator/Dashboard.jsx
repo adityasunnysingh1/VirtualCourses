@@ -12,6 +12,7 @@ function Dashboard() {
   const navigate = useNavigate();
   const { creatorCourseData } = useSelector(state => state.course);
 
+  // --- Data Processing for Graphs ---
   const CourseProgressData = creatorCourseData?.map((course) => ({
     name: course.title?.slice(0, 10) + "...",
     lectures: course.lectures.length || 0
@@ -30,27 +31,30 @@ function Dashboard() {
 
   return (
     <div className='flex min-h-screen bg-gray-100'>
+      
+      {/* Back Button */}
       <BsArrowReturnLeft 
         className='w-[22px] absolute top-[10%] left-[10%] h-[22px] cursor-pointer z-50' 
         onClick={() => navigate("/")} 
       />
 
-      {/* 2. MAIN CONTAINER: */}
+      {/* 2. Main Content Container */}
       <div className='w-full px-6 py-10 relative overflow-hidden space-y-10'>
         
-        {/* 3. FLICKERING GRID BACKGROUND */}
+        {/* 3. THE FLICKERING GRID BACKGROUND */}
         <div className="absolute inset-0 -z-10 bg-gray-50">
-            <FlickeringGrid
-              className="absolute inset-0 z-0 size-full"
+             <FlickeringGrid
+              className="z-0 absolute inset-0 size-full"
               squareSize={4}
               gridGap={6}
-              color="#6F7680"
-              maxOpacity={0.15} // Adjusted for a subtle look
+              color="#6F7880" 
+              maxOpacity={0.2}
               flickerChance={0.5}
+              height={800} 
             />
         </div>
 
-        {/* Main Section */}
+        {/* Welcome Card */}
         <div className='max-w-5xl mx-auto bg-white/90 backdrop-blur-sm rounded-xl shadow-md p-6 flex flex-col md:flex-row items-center gap-6 relative z-10'>
           <img src={userData?.photoUrl || userData?.name.slice(0, 1).toUpperCase()}
             className='w-28 h-28 rounded-full object-cover border-4 border-black shadow-md'
@@ -65,9 +69,9 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* Graph Section */}
+        {/* Graphs Section */}
         <div className='max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10'>
-          {/* For Course Progress Graph */}
+          {/* Course Progress Graph */}
           <div className='bg-white/90 backdrop-blur-sm rounded-lg shadow-md p-6'>
             <h2 className='text-lg font-semibold mb-4'>Course Progress (Lectures)</h2>
             <ResponsiveContainer width="100%" height={300}>
@@ -80,7 +84,8 @@ function Dashboard() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-          {/* For Enrolled Data */}
+          
+          {/* Enrollment Graph */}
           <div className='bg-white/90 backdrop-blur-sm rounded-lg shadow-md p-6'>
             <h2 className='text-lg font-semibold mb-4'>Students Enrollment</h2>
             <ResponsiveContainer width="100%" height={300}>
