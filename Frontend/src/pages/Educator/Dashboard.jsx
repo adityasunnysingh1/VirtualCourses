@@ -39,18 +39,18 @@ function Dashboard() {
       />
 
       {/* 2. Main Content Container */}
-      <div className='w-full px-6 py-10 relative overflow-hidden space-y-10'>
+      <div className='w-full px-6 py-10 relative overflow-hidden space-y-10 min-h-screen'>
         
         {/* 3. THE FLICKERING GRID BACKGROUND */}
         <div className="absolute inset-0 -z-10 bg-gray-50">
              <FlickeringGrid
-              className="z-0 absolute inset-0 size-full"
+              className="z-0 absolute inset-0 w-full h-full"
               squareSize={4}
               gridGap={6}
-              color="#6F7880" 
-              maxOpacity={0.2}
-              flickerChance={0.5}
-              height={800} 
+              color="#000000"      
+              maxOpacity={0.5}     
+              flickerChance={0.3}
+              height={1000}        
             />
         </div>
 
