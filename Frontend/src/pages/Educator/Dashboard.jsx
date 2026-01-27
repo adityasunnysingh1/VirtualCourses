@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { BsArrowReturnLeft } from 'react-icons/bs';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import useGetCreatorCourse from '../../customHooks/getCreatorCourse.js';
-import { FlickeringGrid } from '../../components/FlickeringGrid.jsx'; 
+import { StripedPattern } from '../../components/StripedPattern.jsx'; 
 
 function Dashboard() {
   useGetCreatorCourse(); 
@@ -41,18 +41,13 @@ function Dashboard() {
       {/* 2. Main Content Container */}
       <div className='w-full px-6 py-10 relative overflow-hidden space-y-10 min-h-screen'>
         
-        {/* 3. THE FLICKERING GRID BACKGROUND */}
-        <div className="absolute inset-0 -z-10 bg-gray-50">
-             <FlickeringGrid
-              className="z-0 absolute inset-0 w-full h-full"
-              squareSize={4}
-              gridGap={6}
-              color="#000000"      
-              maxOpacity={0.5}     
-              flickerChance={0.3}
-              height={1000}        
-            />
-        </div>
+        {/* 3. STRIPED PATTERN BACKGROUND */}
+        <StripedPattern 
+            width={20} 
+          height={20} 
+          direction="right"
+            className="absolute inset-0 -z-10 opacity-50 text-gray-300" 
+        />
 
         {/* Welcome Card */}
         <div className='max-w-5xl mx-auto bg-white/90 backdrop-blur-sm rounded-xl shadow-md p-6 flex flex-col md:flex-row items-center gap-6 relative z-10'>
