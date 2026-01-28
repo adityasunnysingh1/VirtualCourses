@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { serverUrl } from "../../App.jsx";
 import axios from "axios";
 import { setCreatorCourseData } from "../../redux/courseSlice.js";
-import DotPattern from "../../components/DotPattern.jsx"; 
+import { DotPattern } from "../../components/DotPattern.jsx"; 
 
 function Courses() {
   const navigate = useNavigate();
