@@ -317,6 +317,7 @@ function ViewCourse() {
                     // 4. Auto-play when a new lecture is selected
                     playing={true}
                     // 5. Advanced Config (Optional: Prevents right-click download)
+                    muted={true}
                     config={{
                       file: {
                         attributes: {
