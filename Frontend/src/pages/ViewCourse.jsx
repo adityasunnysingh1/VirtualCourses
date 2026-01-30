@@ -307,6 +307,7 @@ function ViewCourse() {
                 {selectedLecture?.videoUrl ? (
                   <ReactPlayer
                     // 1. URL to play
+                    key={selectedLecture?.videoUrl}
                     url={selectedLecture?.videoUrl}
                     // 2. Responsive dimensions (Fit container)
                     width="100%"
