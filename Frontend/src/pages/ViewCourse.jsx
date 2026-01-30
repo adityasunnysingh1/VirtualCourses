@@ -313,11 +313,9 @@ function ViewCourse() {
                     height="100%"
                     // 3. Enable "Pro" Controls (Speed, Seek, Volume)
                     controls={true}
-                    // 4. Auto-play when a new lecture is selected
-                    light={selectedCourse?.thumbnail || img}
-                    playing={true}
+
+                    playing={false}
                     // 5. Advanced Config (Optional: Prevents right-click download)
-                    muted={true}
                     config={{
                       file: {
                         attributes: {
