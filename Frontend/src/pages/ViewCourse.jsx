@@ -22,6 +22,7 @@ function ViewCourse() {
   const [selectedLecture, setSelectedLecture] = useState(null);
   const [creatorData, setCreatorData] = useState(null);
   const [prevCourseId, setPrevCourseId] = useState(courseId);
+  
   if (courseId !== prevCourseId) {
     setPrevCourseId(courseId);
     setSelectedLecture(null);
@@ -35,10 +36,9 @@ function ViewCourse() {
 
   useEffect(() => {
     if (selectedLecture?._id) {
-      const timer = setTimeout(() => {
+      setTimeout(() => {
         setIsVideoPlaying(false);
       }, 0);
-      return () => clearTimeout(timer);
     }
   }, [selectedLecture?._id]);
 
@@ -311,18 +311,25 @@ function ViewCourse() {
                 ))}
               </div>
             </div>
-            {/* Right Portion */}
+            
+            {/* Right Portion: Video Player */}
             <div className="bg-white w-full md:w-3/5 p-6 rounded-2xl shadow-lg border border-gray-200">
               <div className="aspect-video w-full rounded-lg overflow-hidden mb-4 bg-black flex items-center justify-center relative group">
                 {selectedLecture?.videoUrl ? (
                   <>
                     <ReactPlayer
+                      key={selectedLecture._id} 
                       url={selectedLecture?.videoUrl}
                       width="100%"
                       height="100%"
                       controls={true}
                       playing={isVideoPlaying}
                       light={false}
+                      
+                      // Sync state when video ends or plays
+                      onPlay={() => setIsVideoPlaying(true)}
+                      onEnded={() => setIsVideoPlaying(false)} 
+                      
                       config={{
                         file: {
                           attributes: {
@@ -334,7 +341,7 @@ function ViewCourse() {
                       onError={(e) => console.error("ReactPlayer Error:", e)}
                     />
 
-                    {/* 2. THE MANUAL OVERLAY (Covers the player until clicked) */}
+                    {/* 2. THE MANUAL OVERLAY */}
                     <div
                       className={`absolute inset-0 z-10 items-center justify-center bg-black/50 cursor-pointer 
           ${isVideoPlaying ? "hidden" : "flex"}`}
