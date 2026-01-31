@@ -28,7 +28,6 @@ export const serverUrl = "https://virtual-courses-two.vercel.app";
 
 
 function App() {
-  useGetCurrentUser();
   useGetCreatorCourse();
   useGetPublishedCourse();
   useGetAllReviews();
