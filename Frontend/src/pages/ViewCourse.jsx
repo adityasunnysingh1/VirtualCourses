@@ -314,7 +314,19 @@ function ViewCourse() {
                     height="100%"
                     controls
                     playing
-                    onError={(e) => console.error("ReactPlayer error:", e)}
+                    muted
+                    playsinline
+                    config={{
+                      file: {
+                        attributes: {
+                          controlsList: "nodownload",
+                          disablePictureInPicture: true,
+                        },
+                      },
+                    }}
+                    onError={(e) => {
+                      console.error("ReactPlayer / Cloudinary error:", e);
+                    }}
                   />
                 ) : (
                   <div className="text-center p-4">
