@@ -12,32 +12,21 @@ import uploadRouter from "./routes/uploadRoute.js";
 
 dotenv.config({ quiet: true });
 
-connectDb();
+connectDb(); 
 
 const app = express();
 
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://virtual-courses-frontend.vercel.app"
-  ],
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization","Cache-Control"]
-}));
-
-app.use((req, res, next) => {
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
-  }
-  next();
-});
-
-app.use(express.json({ limit: "10mb" }));
+app.use(express.json({ limit: "10mb" })); 
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(cookieParser());
 
-// Routes
+app.use(cors({
+    origin: ["http://localhost:5173", "https://virtual-courses-frontend.vercel.app"],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cache-Control", "Expires", "Pragma"]     
+}));
+
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/course", courseRouter);
@@ -46,16 +35,16 @@ app.use("/api/review", reviewRouter);
 app.use("/api/upload", uploadRouter);
 
 app.get("/", (req, res) => {
-  res.send("Hello from server");
+    res.send("Hello from server");
 });
 
 const PORT = process.env.PORT || 3000;
 
-// Local only
+// Only listen to port in Local Development
 if (process.env.NODE_ENV !== "production") {
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
+    app.listen(PORT, () => {
+        console.log(`Server is running on http://localhost:${PORT}`);
+    });
 }
 
 export default app;
