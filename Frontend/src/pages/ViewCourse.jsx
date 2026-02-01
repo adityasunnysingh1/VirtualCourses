@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react";
-import { BsArrowReturnLeft } from "react-icons/bs";
+import { BsArrowReturnLeft, BsPip } from "react-icons/bs"; // Added BsPip for the icon
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { setSelectedCourse } from "../redux/courseSlice.js";
@@ -22,7 +22,7 @@ function ViewCourse() {
   const [creatorData, setCreatorData] = useState(null);
   const [prevCourseId, setPrevCourseId] = useState(courseId);
 
-  // Reference for the video player to control speed
+  // Reference for the video player
   const videoRef = useRef(null);
 
   if (courseId !== prevCourseId) {
@@ -87,7 +87,74 @@ function ViewCourse() {
     return [];
   }, [creatorData, courseData, courseId]);
 
-  // Handle Video Speed Change
+  // --- PICTURE-IN-PICTURE LOGIC ---
+  const togglePiP = async () => {
+    try {
+      if (document.pictureInPictureElement) {
+        await document.exitPictureInPicture();
+      } else if (videoRef.current) {
+        await videoRef.current.requestPictureInPicture();
+      }
+    } catch (error) {
+      console.error("PiP failed:", error);
+      toast.error("PiP not supported or failed");
+    }
+  };
+
+  // --- KEYBOARD SHORTCUTS ---
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const tagName = document.activeElement.tagName.toUpperCase();
+      if (tagName === "INPUT" || tagName === "TEXTAREA") {
+        return;
+      }
+
+      if (!videoRef.current) return;
+      const video = videoRef.current;
+
+      switch (e.key.toLowerCase()) {
+        case " ":
+        case "k":
+          e.preventDefault();
+          if (video.paused) video.play();
+          else video.pause();
+          break;
+        case "arrowright":
+        case "l":
+          video.currentTime += 10;
+          break;
+        case "arrowleft":
+        case "j":
+          video.currentTime -= 10;
+          break;
+        case "arrowup":
+          e.preventDefault();
+          video.volume = Math.min(1, video.volume + 0.1);
+          break;
+        case "arrowdown":
+          e.preventDefault();
+          video.volume = Math.max(0, video.volume - 0.1);
+          break;
+        case "f":
+          if (document.fullscreenElement) document.exitFullscreen();
+          else video.requestFullscreen();
+          break;
+        case "m":
+          video.muted = !video.muted;
+          break;
+        // NEW: Toggle PiP with 'P'
+        case "p":
+          togglePiP();
+          break;
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   const handleSpeedChange = (e) => {
     const newSpeed = parseFloat(e.target.value);
     if (videoRef.current) {
@@ -114,14 +181,9 @@ function ViewCourse() {
           try {
             const verifyPayment = await axios.post(
               `${serverUrl}/api/order/verifypayment`,
-              {
-                ...response,
-                courseId,
-                userId,
-              },
+              { ...response, courseId, userId },
               { withCredentials: true },
             );
-
             setPaymentSuccess(true);
             toast.success(verifyPayment.data.message);
           } catch (error) {
@@ -161,9 +223,7 @@ function ViewCourse() {
   };
 
   const calculateAvgReview = (reviews) => {
-    if (!reviews || reviews.length === 0) {
-      return 0;
-    }
+    if (!reviews || reviews.length === 0) return 0;
     const total = reviews.reduce((sum, review) => sum + review.rating, 0);
     return (total / reviews.length).toFixed(1);
   };
@@ -171,18 +231,14 @@ function ViewCourse() {
   const avgRating = calculateAvgReview(selectedCourse?.reviews);
 
   return (
-    //  OUTER BACKGROUND:
     <div className="min-h-screen bg-white relative p-6">
-      {/* OUTER PATTERN */}
       <StripedPattern
         width={30}
         height={30}
         className="fixed inset-0 z-0 opacity-20 text-gray-300"
       />
 
-      {/* INNER CONTAINER*/}
       <div className="max-w-6xl mx-auto bg-white shadow-md rounded-xl relative overflow-hidden">
-        {/* INNER PATTERN */}
         <StripedPattern
           width={20}
           height={20}
@@ -190,7 +246,6 @@ function ViewCourse() {
           className="absolute inset-0 z-0 opacity-30 text-gray-400"
         />
 
-        {/* CONTENT WRAPPER */}
         <div className="relative z-10 p-6 space-y-6">
           {/* Top Section */}
           <div className="flex flex-col md:flex-row gap-6">
@@ -219,8 +274,6 @@ function ViewCourse() {
             {/* Course Info */}
             <div className="flex-1 space-y-2 mt-[20px]">
               <h2 className="text-2xl font-bold">{selectedCourse?.title}</h2>
-              <p className="text-gray-600"></p>
-
               <div className="flex items-start flex-col justify-start">
                 <div className="text-yellow-500 font-medium flex gap-2">
                   <span className="flex items-center justify-center gap-1">
@@ -232,7 +285,6 @@ function ViewCourse() {
                   <span className="text-xl font-semibold text-black">
                     ₹{selectedCourse?.price}
                   </span>
-                  {""}
                   <span className="line-through text-sm text-gray-400 ml-2">
                     ₹1999
                   </span>
@@ -271,7 +323,7 @@ function ViewCourse() {
             <h2 className="text-xl font-semibold mb-2">
               Who This Course is For
             </h2>
-            <p className="text-gray-700 ">
+            <p className="text-gray-700">
               Beginners, aspiring developers, and professionals looking to
               upgrade skills.
             </p>
@@ -289,60 +341,78 @@ function ViewCourse() {
                 {selectedCourse?.lectures?.map((lecture, index) => {
                   const isAccessible = lecture.isPreviewFree || isEnrolled;
                   return (
-                  <button
-                    key={index}
-                    disabled={!isAccessible}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg border 
+                    <button
+                      key={index}
+                      disabled={!isAccessible}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-lg border 
                 transition-all duration-200 text-left ${
                   isAccessible
                     ? "hover:bg-gray-100 cursor-pointer border-gray-300"
                     : "cursor-not-allowed opacity-60 border-gray-200"
                 } ${selectedLecture?.lectureTitle === lecture?.lectureTitle ? "bg-gray-100 border-gray-400 ring-1 ring-gray-400" : ""}`}
-                    onClick={() => {
-                      if (isAccessible) {
-                        setSelectedLecture(lecture);
-                      }
-                    }}
-                  >
-                    <span className="text-lg text-gray-700">
-                      {lecture.isPreviewFree ? <FaPlayCircle /> : <FaLock />}
-                    </span>
-                    <span className="text-sm font-medium text-gray-800 line-clamp-1">
-                      {lecture?.lectureTitle}
-                    </span>
-                  </button>
-                )})}
+                      onClick={() => {
+                        if (isAccessible) setSelectedLecture(lecture);
+                      }}
+                    >
+                      <span className="text-lg text-gray-700">
+                        {lecture.isPreviewFree ? <FaPlayCircle /> : <FaLock />}
+                      </span>
+                      <span className="text-sm font-medium text-gray-800 line-clamp-1">
+                        {lecture?.lectureTitle}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            {/* Right Portion: Video Player with Speed Control */}
+            {/* Right Portion: Video Player */}
             <div className="bg-white w-full md:w-3/5 p-6 rounded-2xl shadow-lg border border-gray-200">
-              
-              {/* Speed Controller Header */}
+              {/* Header with PiP and Speed */}
               <div className="flex justify-between items-center mb-2 px-1">
-                <h3 className="font-semibold text-gray-700">Video Player</h3>
+                <div className="flex flex-col">
+                  <h3 className="font-semibold text-gray-700">Video Player</h3>
+                  <span className="text-[10px] text-gray-400 hidden sm:block">
+                    (Press 'F' for Fullscreen, 'P' for PiP)
+                  </span>
+                </div>
+
                 {selectedLecture?.videoUrl && (
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-500 font-medium">Speed:</span>
-                    <select 
-                      className="border border-gray-300 rounded-md p-1 text-sm bg-gray-50 cursor-pointer outline-none focus:ring-1 focus:ring-black"
-                      onChange={handleSpeedChange}
-                      defaultValue="1"
+                  <div className="flex items-center gap-3">
+                    {/* NEW: PiP Button */}
+                    <button
+                      onClick={togglePiP}
+                      className="flex items-center gap-1 text-sm bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded border border-gray-300 transition"
+                      title="Picture in Picture Mode"
                     >
-                      <option value="0.25">0.25x</option>
-                      <option value="0.5">0.5x</option>
-                      <option value="0.75">0.75x</option>
-                      <option value="1">1x (Normal)</option>
-                      <option value="1.25">1.25x</option>
-                      <option value="1.5">1.5x</option>
-                      <option value="1.75">1.75x</option>
-                      <option value="2">2x</option>
-                      <option value="2.25">2.25x</option>
-                      <option value="2.5">2.5x</option>
-                      <option value="2.75">2.75x</option>
-                      <option value="3">3x</option>
-                      <option value="4">4x</option>
-                    </select>
+                      <BsPip className="text-gray-700" />
+                      <span className="hidden sm:inline text-gray-700">
+                        PiP
+                      </span>
+                    </button>
+
+                    {/* Speed Selector */}
+                    <div className="flex items-center gap-1">
+                      <span className="text-sm text-gray-500 font-medium hidden sm:block">
+                        Speed:
+                      </span>
+                      <select
+                        className="border border-gray-300 rounded-md p-1 text-sm bg-gray-50 cursor-pointer outline-none focus:ring-1 focus:ring-black"
+                        onChange={handleSpeedChange}
+                        defaultValue="1"
+                      >
+                        <option value="0.25">0.25x</option>
+                        <option value="0.5">0.5x</option>
+                        <option value="0.75">0.75x</option>
+                        <option value="1">1x</option>
+                        <option value="1.25">1.25x</option>
+                        <option value="1.5">1.5x</option>
+                        <option value="1.75">1.75x</option>
+                        <option value="2">2x</option>
+                        <option value="2.5">2.5x</option>
+                        <option value="3">3x</option>
+                      </select>
+                    </div>
                   </div>
                 )}
               </div>
@@ -406,7 +476,6 @@ function ViewCourse() {
             </div>
           </div>
 
-          {/* For Creator Info */}
           <div className="flex items-center gap-4 pt-4 border-t">
             {creatorData?.photoUrl ? (
               <img
@@ -421,7 +490,6 @@ function ViewCourse() {
                 className="border border-gray-200 w-16 h-16 rounded-full object-cover"
               />
             )}
-
             <div>
               <h2 className="text-lg font-semibold">{creatorData?.name}</h2>
               <p className="md:text-sm text-gray-600 text-[10px]">
@@ -432,15 +500,13 @@ function ViewCourse() {
               </p>
             </div>
           </div>
+
           <div>
             <p className="text-xl font-semibold mb-2">
               Other published courses by the Educator:
             </p>
           </div>
-          <div
-            className="w-full transition-all duration-300 py-[20px] flex items-start justify-center
-          lg:justify-start flex-wrap gap-6 lg:px-[80px] cursor-pointer"
-          >
+          <div className="w-full transition-all duration-300 py-[20px] flex items-start justify-center lg:justify-start flex-wrap gap-6 lg:px-[80px] cursor-pointer">
             {creatorCourses?.map((course, index) => (
               <Card
                 key={index}
