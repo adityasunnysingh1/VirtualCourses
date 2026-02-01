@@ -307,23 +307,16 @@ function ViewCourse() {
             <div className="bg-white w-full md:w-3/5 p-6 rounded-2xl shadow-lg border border-gray-200">
               <div className="aspect-video w-full rounded-lg overflow-hidden mb-4 bg-black flex items-center justify-center relative group">
                 {selectedLecture?.videoUrl ? (
-                  <ReactPlayer
+                  <video
                     key={selectedLecture.videoUrl}
-                    url={selectedLecture.videoUrl}
-                    width="100%"
-                    height="100%"
+                    src={selectedLecture.videoUrl}
+                    className="w-full h-full object-contain"
                     controls
-                    playing={false}
-                    playsinline
-                    config={{
-                      file: {
-                        attributes: {
-                          controlsList: "nodownload",
-                        },
-                      },
-                    }}
-                    onError={(e) => console.error("ReactPlayer error:", e)}
-                  />
+                    controlsList="nodownload"
+                    playsInline
+                  >
+                    Your browser does not support the video tag.
+                  </video>
                 ) : (
                   <div className="text-center p-4">
                     <FaPlayCircle className="text-white text-4xl mx-auto mb-2 opacity-50" />
