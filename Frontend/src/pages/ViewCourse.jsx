@@ -308,32 +308,13 @@ function ViewCourse() {
               <div className="aspect-video w-full rounded-lg overflow-hidden mb-4 bg-black flex items-center justify-center relative group">
                 {selectedLecture?.videoUrl ? (
                   <ReactPlayer
-                    key={selectedLecture._id}
-                    url={selectedLecture?.videoUrl}
+                    key={selectedLecture.videoUrl}
+                    url={selectedLecture.videoUrl}
                     width="100%"
                     height="100%"
-                    controls={true}
-                    light={selectedCourse?.thumbnail || img}
-                    playing={true}
-                    playIcon={
-                      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center w-full h-full bg-black/50 cursor-pointer hover:bg-black/40 transition-colors">
-                        <div className="flex flex-col items-center transform transition-transform group-hover:scale-110">
-                          <FaPlayCircle className="text-white text-6xl drop-shadow-lg" />
-                          <p className="text-white font-semibold mt-2 drop-shadow-md">
-                            Play Lecture
-                          </p>
-                        </div>
-                      </div>
-                    }
-                    config={{
-                      file: {
-                        attributes: {
-                          controlsList: "nodownload",
-                          onContextMenu: (e) => e.preventDefault(),
-                        },
-                      },
-                    }}
-                    onError={(e) => console.error("ReactPlayer Error:", e)}
+                    controls
+                    playing
+                    onError={(e) => console.error("ReactPlayer error:", e)}
                   />
                 ) : (
                   <div className="text-center p-4">
@@ -422,7 +403,7 @@ function ViewCourse() {
                 id={course._id}
                 price={course.price}
                 title={course.title}
-                category={course.category}   
+                category={course.category}
               />
             ))}
           </div>
