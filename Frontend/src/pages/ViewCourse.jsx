@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef } from "react"; // Added useRef
+import { useState, useMemo, useEffect, useRef } from "react";
 import { BsArrowReturnLeft } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -11,7 +11,6 @@ import Card from "../components/Card.jsx";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import { StripedPattern } from "../components/StripedPattern.jsx";
-// Removed unused ReactPlayer import
 
 function ViewCourse() {
   const navigate = useNavigate();
@@ -338,6 +337,11 @@ function ViewCourse() {
                       <option value="1.5">1.5x</option>
                       <option value="1.75">1.75x</option>
                       <option value="2">2x</option>
+                      <option value="2.25">2.25x</option>
+                      <option value="2.5">2.5x</option>
+                      <option value="2.75">2.75x</option>
+                      <option value="3">3x</option>
+                      <option value="4">4x</option>
                     </select>
                   </div>
                 )}
