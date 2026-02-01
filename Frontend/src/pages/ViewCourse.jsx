@@ -32,15 +32,6 @@ function ViewCourse() {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-
-  useEffect(() => {
-    if (selectedLecture?._id) {
-      setTimeout(() => {
-        setIsVideoPlaying(true);
-      }, 0);
-    }
-  }, [selectedLecture?._id]);
 
   // Scroll to Top on navigation
   useEffect(() => {
@@ -323,7 +314,7 @@ function ViewCourse() {
                     height="100%"
                     controls={true}
                     light={selectedCourse?.thumbnail || img}
-                    playing={isVideoPlaying}
+                    playing={true}
                     playIcon={
                       <div className="absolute inset-0 z-10 flex flex-col items-center justify-center w-full h-full bg-black/50 cursor-pointer hover:bg-black/40 transition-colors">
                         <div className="flex flex-col items-center transform transition-transform group-hover:scale-110">
@@ -334,9 +325,6 @@ function ViewCourse() {
                         </div>
                       </div>
                     }
-                    // Sync state (optional, mostly for other UI elements)
-                    onPlay={() => setIsVideoPlaying(true)}
-                    onEnded={() => setIsVideoPlaying(false)}
                     config={{
                       file: {
                         attributes: {
@@ -434,7 +422,7 @@ function ViewCourse() {
                 id={course._id}
                 price={course.price}
                 title={course.title}
-                category={course.category}
+                category={course.category}   
               />
             ))}
           </div>
