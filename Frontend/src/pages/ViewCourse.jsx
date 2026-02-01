@@ -427,7 +427,6 @@ function ViewCourse() {
                     controls
                     controlsList="nodownload"
                     playsInline
-                    autoPlay
                   >
                     Your browser does not support the video tag.
                   </video>
