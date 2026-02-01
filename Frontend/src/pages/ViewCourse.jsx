@@ -133,6 +133,7 @@ function ViewCourse() {
         videoRef.current.currentTime = parseFloat(savedTime);
       }
       videoRef.current.volume = 1;
+      videoRef.current.muted = false;
     }
   };
 
@@ -475,6 +476,8 @@ function ViewCourse() {
                     controls
                     controlsList="nodownload"
                     playsInline
+                    autoPlay
+                    muted={false}
                     // Feature 1: Auto Advance
                     onEnded={handleVideoEnded}
                     // Feature 2: Save Progress
