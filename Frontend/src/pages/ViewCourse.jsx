@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react"; // Added useRef
 import { BsArrowReturnLeft } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -11,7 +11,7 @@ import Card from "../components/Card.jsx";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import { StripedPattern } from "../components/StripedPattern.jsx";
-import ReactPlayer from "react-player";
+// Removed unused ReactPlayer import
 
 function ViewCourse() {
   const navigate = useNavigate();
@@ -22,6 +22,9 @@ function ViewCourse() {
   const [selectedLecture, setSelectedLecture] = useState(null);
   const [creatorData, setCreatorData] = useState(null);
   const [prevCourseId, setPrevCourseId] = useState(courseId);
+
+  // Reference for the video player to control speed
+  const videoRef = useRef(null);
 
   if (courseId !== prevCourseId) {
     setPrevCourseId(courseId);
@@ -84,6 +87,14 @@ function ViewCourse() {
     }
     return [];
   }, [creatorData, courseData, courseId]);
+
+  // Handle Video Speed Change
+  const handleSpeedChange = (e) => {
+    const newSpeed = parseFloat(e.target.value);
+    if (videoRef.current) {
+      videoRef.current.playbackRate = newSpeed;
+    }
+  };
 
   const handleEnroll = async (userId, courseId) => {
     try {
@@ -276,18 +287,20 @@ function ViewCourse() {
                 {selectedCourse?.lectures?.length} Lectures
               </p>
               <div className="flex flex-col gap-3 max-h-[400px] overflow-y-auto pr-2">
-                {selectedCourse?.lectures?.map((lecture, index) => (
+                {selectedCourse?.lectures?.map((lecture, index) => {
+                  const isAccessible = lecture.isPreviewFree || isEnrolled;
+                  return (
                   <button
                     key={index}
-                    disabled={!lecture.isPreviewFree}
+                    disabled={!isAccessible}
                     className={`flex items-center gap-3 px-4 py-3 rounded-lg border 
                 transition-all duration-200 text-left ${
-                  lecture.isPreviewFree
+                  isAccessible
                     ? "hover:bg-gray-100 cursor-pointer border-gray-300"
                     : "cursor-not-allowed opacity-60 border-gray-200"
                 } ${selectedLecture?.lectureTitle === lecture?.lectureTitle ? "bg-gray-100 border-gray-400 ring-1 ring-gray-400" : ""}`}
                     onClick={() => {
-                      if (lecture.isPreviewFree) {
+                      if (isAccessible) {
                         setSelectedLecture(lecture);
                       }
                     }}
@@ -299,21 +312,48 @@ function ViewCourse() {
                       {lecture?.lectureTitle}
                     </span>
                   </button>
-                ))}
+                )})}
               </div>
             </div>
 
-            {/* Right Portion: Video Player */}
+            {/* Right Portion: Video Player with Speed Control */}
             <div className="bg-white w-full md:w-3/5 p-6 rounded-2xl shadow-lg border border-gray-200">
+              
+              {/* Speed Controller Header */}
+              <div className="flex justify-between items-center mb-2 px-1">
+                <h3 className="font-semibold text-gray-700">Video Player</h3>
+                {selectedLecture?.videoUrl && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-gray-500 font-medium">Speed:</span>
+                    <select 
+                      className="border border-gray-300 rounded-md p-1 text-sm bg-gray-50 cursor-pointer outline-none focus:ring-1 focus:ring-black"
+                      onChange={handleSpeedChange}
+                      defaultValue="1"
+                    >
+                      <option value="0.25">0.25x</option>
+                      <option value="0.5">0.5x</option>
+                      <option value="0.75">0.75x</option>
+                      <option value="1">1x (Normal)</option>
+                      <option value="1.25">1.25x</option>
+                      <option value="1.5">1.5x</option>
+                      <option value="1.75">1.75x</option>
+                      <option value="2">2x</option>
+                    </select>
+                  </div>
+                )}
+              </div>
+
               <div className="aspect-video w-full rounded-lg overflow-hidden mb-4 bg-black flex items-center justify-center relative group">
                 {selectedLecture?.videoUrl ? (
                   <video
+                    ref={videoRef}
                     key={selectedLecture.videoUrl}
                     src={selectedLecture.videoUrl}
                     className="w-full h-full object-contain"
                     controls
                     controlsList="nodownload"
                     playsInline
+                    autoPlay
                   >
                     Your browser does not support the video tag.
                   </video>
