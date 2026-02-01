@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react";
-import { BsArrowReturnLeft, BsPip } from "react-icons/bs"; // Added BsPip for the icon
+import { BsArrowReturnLeft, BsPip } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { setSelectedCourse } from "../redux/courseSlice.js";
@@ -87,7 +87,56 @@ function ViewCourse() {
     return [];
   }, [creatorData, courseData, courseId]);
 
-  // --- PICTURE-IN-PICTURE LOGIC ---
+  // AUTO-ADVANCE 
+  const handleVideoEnded = () => {
+    // 1. Find index of current lecture
+    const currentIndex = selectedCourse?.lectures?.findIndex(
+      (l) => l.lectureTitle === selectedLecture?.lectureTitle
+    );
+
+    // 2. Check if there is a next lecture
+    if (
+      currentIndex !== -1 &&
+      currentIndex < selectedCourse?.lectures?.length - 1
+    ) {
+      const nextLecture = selectedCourse?.lectures[currentIndex + 1];
+
+      // 3. Check access permissions
+      if (nextLecture.isPreviewFree || isEnrolled) {
+        setSelectedLecture(nextLecture);
+        toast.info(`Playing Next: ${nextLecture.lectureTitle}`);
+      }
+    }
+  };
+
+  // RESUME PLAYBACK (MEMORY)
+  const handleTimeUpdate = () => {
+    if (videoRef.current && selectedLecture) {
+      const currentTime = videoRef.current.currentTime;
+      if (currentTime > 0) {
+        // Save unique key: courseID + lectureTitle
+        localStorage.setItem(
+          `${courseId}-${selectedLecture.lectureTitle}`,
+          currentTime
+        );
+      }
+    }
+  };
+
+  const handleVideoLoaded = () => {
+    if (videoRef.current && selectedLecture) {
+      //  Restore Time
+      const savedTime = localStorage.getItem(
+        `${courseId}-${selectedLecture.lectureTitle}`
+      );
+      if (savedTime) {
+        videoRef.current.currentTime = parseFloat(savedTime);
+      }
+      videoRef.current.volume = 1;
+    }
+  };
+
+  //  PICTURE-IN-PICTURE LOGIC 
   const togglePiP = async () => {
     try {
       if (document.pictureInPictureElement) {
@@ -101,7 +150,7 @@ function ViewCourse() {
     }
   };
 
-  // --- KEYBOARD SHORTCUTS ---
+  // KEYBOARD SHORTCUTS 
   useEffect(() => {
     const handleKeyDown = (e) => {
       const tagName = document.activeElement.tagName.toUpperCase();
@@ -142,7 +191,6 @@ function ViewCourse() {
         case "m":
           video.muted = !video.muted;
           break;
-        // NEW: Toggle PiP with 'P'
         case "p":
           togglePiP();
           break;
@@ -379,7 +427,7 @@ function ViewCourse() {
 
                 {selectedLecture?.videoUrl && (
                   <div className="flex items-center gap-3">
-                    {/* NEW: PiP Button */}
+                    {/* PiP Button */}
                     <button
                       onClick={togglePiP}
                       className="flex items-center gap-1 text-sm bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded border border-gray-300 transition"
@@ -427,6 +475,12 @@ function ViewCourse() {
                     controls
                     controlsList="nodownload"
                     playsInline
+                    // Feature 1: Auto Advance
+                    onEnded={handleVideoEnded}
+                    // Feature 2: Save Progress
+                    onTimeUpdate={handleTimeUpdate}
+                    // Feature 3: Load Progress & Volume
+                    onLoadedMetadata={handleVideoLoaded}
                   >
                     Your browser does not support the video tag.
                   </video>
