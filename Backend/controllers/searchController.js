@@ -1,8 +1,33 @@
 import Course from "../models/courseModel.js";
 import Lecture from "../models/lectureModel.js";
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleAIFileManager } from "@google/generative-ai/server";
+import fs from "fs";
+import https from "https";
+import os from "os";
+import path from "path";
 import dotenv from "dotenv";
 dotenv.config();
+
+// Initialize Google AI
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const fileManager = new GoogleAIFileManager(process.env.GEMINI_API_KEY);
+
+// Helper: Download File from Cloudinary to Local Temp 
+const downloadFile = (url, dest) => {
+  return new Promise((resolve, reject) => {
+    const file = fs.createWriteStream(dest);
+    https.get(url, (response) => {
+      response.pipe(file);
+      file.on('finish', () => {
+        file.close(resolve);
+      });
+    }).on('error', (err) => {
+      fs.unlink(dest, () => {}); // Delete temp file on error
+      reject(err.message);
+    });
+  });
+};
 
 export const searchWithAi = async(req,res)=>{
    try {
@@ -75,42 +100,104 @@ Query: ${input}`;
 export const explainLecture = async (req, res) => {
     try {
       const { lectureId, currentTimestamp, userQuestion } = req.body;
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
   
       if (!lectureId) {
         return res.status(400).json({ message: "Lecture ID is required" });
       }
   
+      // 1. Fetch Lecture
       const lecture = await Lecture.findById(lectureId);
-      if (!lecture) {
-        return res.status(404).json({ message: "Lecture not found" });
-      }
+      if (!lecture) return res.status(404).json({ message: "Lecture not found" });
+  
+      let transcriptText = lecture.transcript;
+  
+      // 2. AUTO-GENERATE TRANSCRIPT (If missing)
+      // This runs ONLY the first time a user asks a question on a new video
+      if (!transcriptText || transcriptText.length < 50) {
+          console.log("⚠️ Transcript missing. Generating from Cloudinary video...");
+          
+          // A. Define Temp Path
+          const tempFilePath = path.join(os.tmpdir(), `lecture-${lectureId}.mp4`);
+          
+          try {
+              // B. Download from Cloudinary
+              await downloadFile(lecture.videoUrl, tempFilePath);
+              
+              // C. Upload to Google AI
+              const uploadResult = await fileManager.uploadFile(tempFilePath, {
+                  mimeType: "video/mp4",
+                  displayName: `Lecture ${lectureId}`,
+              });
+              
+              // D. Wait for processing (Video takes a moment)
+              let file = await fileManager.getFile(uploadResult.file.name);
+              while (file.state === "PROCESSING") {
+                  process.stdout.write(".");
+                  await new Promise((resolve) => setTimeout(resolve, 2000)); // Sleep 2s
+                  file = await fileManager.getFile(uploadResult.file.name);
+              }
 
-      // Fallback if no transcript exists yet
-      const contextText = lecture.transcript || `This lecture is titled "${lecture.lectureTitle}". No specific transcript is available.`;
+              if (file.state === "FAILED") {
+                  throw new Error("Video processing failed by Google AI");
+              }
+
+              // E. Ask Gemini to Transcribe
+              const result = await model.generateContent([
+                  {
+                      fileData: {
+                          mimeType: uploadResult.file.mimeType,
+                          fileUri: uploadResult.file.uri
+                      }
+                  },
+                  { text: "Generate a detailed transcript of the spoken audio in this video. Ignore background noise." }
+              ]);
+
+              transcriptText = result.response.text();
+
+              // F. Save to Database (Permanent Cache)
+              lecture.transcript = transcriptText;
+              await lecture.save();
+              console.log("✅ Transcript generated and saved to DB.");
+
+              // G. Cleanup (Delete temp files)
+              fs.unlinkSync(tempFilePath);
+              await fileManager.deleteFile(uploadResult.file.name);
+
+          } catch (error) {
+              console.error("Transcription Failed:", error);
+              // Clean up temp file if it exists
+              if (fs.existsSync(tempFilePath)) fs.unlinkSync(tempFilePath);
+              
+              // If transcription fails, we can't context-answer, so we fallback
+              return res.status(200).json({ 
+                  success: true, 
+                  answer: "I am analyzing the video content for the first time, but something went wrong generating the transcript. Please try again in a moment." 
+              });
+          }
+      }
   
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-  
+      // 3. Answer the Question using the Transcript
       const prompt = `
-        You are a smart tutor on "VirtualCourses".
+        You are an expert coding tutor.
+        
+        --- TRANSCRIPT START ---
+        ${transcriptText}
+        --- TRANSCRIPT END ---
         
         CONTEXT:
-        The student is watching: "${lecture.lectureTitle}".
-        Lecture Content: "${contextText.substring(0, 1500)}..."
-        Timestamp: ${currentTimestamp} seconds.
+        The student paused the video at timestamp: ${currentTimestamp} seconds.
         
-        STUDENT QUESTION: "${userQuestion || "Explain what is happening right now."}"
+        STUDENT QUESTION: "${userQuestion || "Explain the concept being discussed right now."}"
         
-        INSTRUCTION:
-        Give a clear, short explanation (max 3 sentences). 
+        INSTRUCTIONS:
+        1. Answer strictly based on the provided transcript.
+        2. Identify what topic falls around the ${currentTimestamp} second mark (estimate based on word count/flow if needed).
+        3. Keep the explanation clear and short (max 3 sentences).
       `;
   
-      const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: prompt,
-      });
-  
-      // Handle different SDK response formats
-      const answer = typeof response.text === 'function' ? response.text() : response.text;
+      const response = await model.generateContent(prompt);
+      const answer = response.response.text();
   
       return res.status(200).json({ 
         success: true, 
@@ -118,7 +205,7 @@ export const explainLecture = async (req, res) => {
       });
   
     } catch (error) {
-      console.error("AI Explanation Error:", error);
-      return res.status(500).json({ message: "AI Request Failed" });
+      console.error("AI Context Error:", error);
+      return res.status(500).json({ message: "Failed to generate explanation" });
     }
 };
