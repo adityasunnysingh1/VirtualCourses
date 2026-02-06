@@ -54,7 +54,7 @@ const AIExplainer = ({ lectureId, videoRef }) => {
       {/* The Magic Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all shadow-md"
+        className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all shadow-md cursor-pointer"
       >
         <Sparkles size={18} />
         {isOpen ? "Close AI Tutor" : "Ask AI to Explain"}
@@ -75,7 +75,7 @@ const AIExplainer = ({ lectureId, videoRef }) => {
             <button 
               onClick={handleAskAI}
               disabled={loading}
-              className="px-4 py-2 bg-black text-white rounded-md text-sm font-medium disabled:opacity-50 min-w-[80px]"
+              className="px-4 py-2 bg-black text-white rounded-md text-sm font-medium disabled:opacity-50 min-w-[80px] cursor-pointer"
             >
               {loading ? "Thinking..." : "Explain"}
             </button>
