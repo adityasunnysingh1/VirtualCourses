@@ -9,7 +9,7 @@
 ## 📖 The Story
 I built **VirtualCourses** because I wanted to move beyond simple CRUD apps. I wanted to understand the "messy" parts of real-world software: handling money securely, managing complex global state, and integrating modern AI.
 
-This isn't just a clone. It's a fully functional platform where instructors can publish content and students can learn without friction. I focused heavily on security (JWT & Razorpay verification) and UX (AI Search & Redux), ensuring the app feels as solid as it looks.
+This isn't just a clone. It's a fully functional platform where educators can publish content and students can learn without friction. I focused heavily on security (JWT & Razorpay verification) and UX (AI Search & Redux), ensuring the app feels as solid as it looks.
 
 ---
 
@@ -24,7 +24,7 @@ I didn't trust the frontend with money.
 * **The Logic:** Orders are generated on the server (`orderController.js`). Course access is only granted *after* the backend cryptographically verifies the payment signature from Razorpay. Zero chance of client-side price tampering.
 
 ### 🔐 Role-Based Security (JWT)
-* **Custom Middleware:** I wrote a `verifyJWT` middleware that sits between the user and sensitive routes. It strictly segregates `Student` and `Educator` capabilities, ensuring instructors can't accidentally be treated as students (and vice versa).
+* **Custom Middleware:** I wrote a `verifyJWT` middleware that sits between the user and sensitive routes. It strictly segregates `Student` and `Educator` capabilities, ensuring educators can't accidentally be treated as students (and vice versa).
 
 ### ☁️ Optimized Media Pipeline
 * **Tech:** Multer + Cloudinary.
