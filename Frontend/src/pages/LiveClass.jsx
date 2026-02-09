@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { serverUrl } from '../App.jsx'; // Your API URL constant
+const serverUrl = "https://virtualcourses-ize6.onrender.com"; // Your API URL constant
 
 // Connect to Backend Socket
 const socket = io(serverUrl); 
