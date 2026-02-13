@@ -13,29 +13,30 @@
 
 This project was engineered to solve specific challenges in scalability, latency, and user engagement. It is not just a CRUD app; it is a complex system integration.
 
-### **1. 🧊 Immersive 3D User Experience (Three.js & OGL)**
-* **The Engineering:** Unlike flat, 2D interfaces, VirtualCourses leverages **WebGL** via **Three.js** and **React Three Fiber**.
-* **The Result:** A GPU-accelerated landing experience featuring interactive 3D elements that respond to cursor movement and scroll depth, powered by **GSAP** and **Framer Motion** for buttery-smooth performance (60 FPS).
-
+### **1. 🤖 Multimodal RAG & Semantic Search Architecture**
+* **The Engineering Challenge:** Video content is **"dark data"** opaque to standard indexing, and traditional regex search fails to bridge the **"semantic gap"** between vague user intent and strict database schemas.
+* **The Solution:** Architected a **Dual-Layer Generative AI Pipeline** using **Google Gemini 1.5 Flash**:
+    * **Video-to-Text RAG:** Built an ingestion pipeline that generates timestamped transcripts from raw video buffers, enabling a **"Context-Aware QA Engine"** where students can "chat" with lecture content.
+    * **Semantic Query Expansion:** Replaced rigid keyword matching with an intent analysis layer that maps natural language (e.g., *"I want to build APIs"*) to precise database taxonomy for high-precision retrieval.
+      
 ### **2. 🚀 Latency Optimization (Redis Caching)**
 * **The Problem:** Repeated database queries for static content (Course Categories, Top Instructors) caused unnecessary MongoDB load.
 * **The Solution:** Implemented a **Cache-Aside** strategy using **Redis (ioredis)**.
     * **Impact:** Reduced Time-to-First-Byte (TTFB) by **~400ms** for public pages.
     * **Strategy:** Data is cached with a 1-hour TTL and invalidated immediately upon admin updates.
 
-### **3. 🤖 AI-Powered "Context-Aware" Search (RAG Pipeline)**
-* **The Tech:** **Google Gemini Pro (`@google/generative-ai`)**.
-* **The Feature:** Standard keyword search is brittle. I built a semantic search engine where users can ask questions like *"I want to learn backend systems with Node"*.
-* **The Flow:** The AI analyzes the query intent and retrieves relevant courses based on description vectors, acting as a virtual academic advisor.
-
-### **4. 🛡️ Financial Security (Cryptographic Webhooks)**
+### **3. 🛡️ Financial Security (Cryptographic Webhooks)**
 * **The Tech:** **Razorpay** + **HMAC-SHA256**.
 * **The Security:** To prevent "Client-Side Manipulation" (where a user might try to fake a success response), the system relies purely on **Server-to-Server Webhooks**.
 * **Verification:** The backend cryptographically verifies the webhook signature before granting course access, ensuring a **Zero-Trust** environment.
 
-### **5. 📹 Real-Time Collaboration Suite**
+### **4. 📹 Real-Time Collaboration Suite**
 * **Video:** Integrated **ZegoCloud UIKit** for low-latency, peer-to-peer (P2P) video conferencing for live classes.
 * **Chat:** Custom **Socket.io** server handling bi-directional events for instant doubt resolution and class announcements.
+
+### **5. 🧊 Immersive 3D User Experience (Three.js & OGL)**
+* **The Engineering:** Unlike flat, 2D interfaces, VirtualCourses leverages **WebGL** via **Three.js** and **React Three Fiber**.
+* **The Result:** A GPU-accelerated landing experience featuring interactive 3D elements that respond to cursor movement and scroll depth, powered by **GSAP** and **Framer Motion** for buttery-smooth performance (60 FPS).
 
 ---
 
