@@ -15,7 +15,7 @@ This project was engineered to solve specific challenges in scalability, latency
 
 ### **1. 🤖 Multimodal RAG & Semantic Search Architecture**
 * **The Engineering Challenge:** Video content is **"dark data"** opaque to standard indexing, and traditional regex search fails to bridge the **"semantic gap"** between vague user intent and strict database schemas.
-* **The Solution:** Architected a **Dual-Layer Generative AI Pipeline** using **Google Gemini 1.5 Flash**:
+* **The Solution:** Architected a **Dual-Layer Generative AI Pipeline** using **Google Gemini 3 Flash**:
     * **Video-to-Text RAG:** Built an ingestion pipeline that generates timestamped transcripts from raw video buffers, enabling a **"Context-Aware QA Engine"** where students can "chat" with lecture content.
     * **Semantic Query Expansion:** Replaced rigid keyword matching with an intent analysis layer that maps natural language (e.g., *"I want to build APIs"*) to precise database taxonomy for high-precision retrieval.
       
@@ -37,6 +37,11 @@ This project was engineered to solve specific challenges in scalability, latency
 ### **5. 🧊 Immersive 3D User Experience (Three.js & OGL)**
 * **The Engineering:** Unlike flat, 2D interfaces, VirtualCourses leverages **WebGL** via **Three.js** and **React Three Fiber**.
 * **The Result:** A GPU-accelerated landing experience featuring interactive 3D elements that respond to cursor movement and scroll depth, powered by **GSAP** and **Framer Motion** for buttery-smooth performance (60 FPS).
+
+### **6. 🚀 Streaming & State — Optimized and Scalable**
+**Implemented:** chunked uploads using **Multer** + **Cloudinary** with automatic adaptive-bitrate transcoding (HLS/DASH) and CDN delivery for smooth playback on low-bandwidth networks.
+**State:** centralized global store with **Redux Toolkit**; async logic via Thunks and session/cart persistence with **redux-persist** to avoid redundant fetches.
+**Impact:** lower buffering, reduced bandwidth/storage overhead, and predictable state across complex flows (Auth, Cart, Course Player, Instructor Dashboard).
 
 ---
 
