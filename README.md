@@ -1,11 +1,11 @@
 
 # 🎓 VirtualCourses: AI-Powered Immersive Learning Ecosystem
 
-![Status](https://img.shields.io/badge/Status-Production_Ready-success?style=for-the-badge) ![Core](https://img.shields.io/badge/Stack-MERN_Pro-blue?style=for-the-badge) ![Performance](https://img.shields.io/badge/Performance-Redis_Caching-red?style=for-the-badge) ![AI](https://img.shields.io/badge/AI-Gemini_1.5_Pro-violet?style=for-the-badge) ![3D](https://img.shields.io/badge/UX-Three.js_3D-orange?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Production_Ready-success?style=for-the-badge) ![Core](https://img.shields.io/badge/Stack-MERN_Pro-blue?style=for-the-badge) ![Performance](https://img.shields.io/badge/Performance-Redis_Caching-red?style=for-the-badge) ![AI](https://img.shields.io/badge/AI-Gemini_3_Flash-violet?style=for-the-badge) ![3D](https://img.shields.io/badge/UX-Three.js_3D-orange?style=for-the-badge)
 
 > **🚀 More than an LMS.** VirtualCourses is a distributed, high-performance educational platform that redefines online learning by merging **Generative AI assistance**, **Redis-powered caching**, **Real-time collaboration**, and **3D immersive experiences** into a single, scalable architecture.
 
-🔗 **Live Deployment:** [https://virtual-courses-two.vercel.app](https://virtual-courses-two.vercel.app) | 🔌 **Backend API:** [https://virtualcourses-ize6.onrender.com/](https://virtualcourses-ize6.onrender.com/)
+🔗 **Live Deployment:** [https://virtual-courses-frontend.vercel.app/](https://virtual-courses-frontend.vercel.app/) | 🔌 **Backend API:** [https://virtualcourses-ize6.onrender.com/](https://virtualcourses-ize6.onrender.com/)
 
 ---
 
