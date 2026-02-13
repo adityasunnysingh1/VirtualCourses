@@ -39,9 +39,9 @@ This project was engineered to solve specific challenges in scalability, latency
 * **The Result:** A GPU-accelerated landing experience featuring interactive 3D elements that respond to cursor movement and scroll depth, powered by **GSAP** and **Framer Motion** for buttery-smooth performance (60 FPS).
 
 ### **6. 🚀 Streaming & State — Optimized and Scalable**
-**Implemented:** chunked uploads using **Multer** + **Cloudinary** with automatic adaptive-bitrate transcoding (HLS/DASH) and CDN delivery for smooth playback on low-bandwidth networks.
-**State:** centralized global store with **Redux Toolkit**; async logic via Thunks and session/cart persistence with **redux-persist** to avoid redundant fetches.
-**Impact:** lower buffering, reduced bandwidth/storage overhead, and predictable state across complex flows (Auth, Cart, Course Player, Instructor Dashboard).
+* **Implemented:** chunked uploads using **Multer** + **Cloudinary** with automatic adaptive-bitrate transcoding (HLS/DASH) and CDN delivery for smooth playback on low-bandwidth networks.
+* **State:** centralized global store with **Redux Toolkit**; async logic via Thunks and session/cart persistence with **redux-persist** to avoid redundant fetches.
+* **Impact:** lower buffering, reduced bandwidth/storage overhead, and predictable state across complex flows (Auth, Cart, Course Player, Instructor Dashboard).
 
 ---
 
