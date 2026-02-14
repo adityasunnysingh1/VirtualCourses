@@ -21,7 +21,7 @@ This project was engineered to solve specific challenges in scalability, latency
       
 ### **2. 🚀 Latency Optimization (Redis Caching)**
 * **The Problem:** Repeated database queries for static content (Course Categories, Top Instructors) caused unnecessary MongoDB load.
-* **The Solution:** Implemented a **Cache-Aside** strategy using **Redis (ioredis)**.
+* **The Solution:** Implemented a **Cache-Aside Strategy** using **Upstash Serverless Redis** (via the `ioredis` client).
     * **Impact:** Reduced Time-to-First-Byte (TTFB) by **~400ms** for public pages.
     * **Strategy:** Data is cached with a 1-hour TTL and invalidated immediately upon admin updates.
 
@@ -95,7 +95,6 @@ cd VirtualCourses
 ```bash
 cd Backend
 npm install
-# Key deps: express, mongoose, redis, google-generative-ai, razorpay
 
 ```
 
@@ -104,7 +103,6 @@ npm install
 ```bash
 cd ../Frontend
 npm install
-# Key deps: react, three, @react-three/fiber, framer-motion, gsap
 
 ```
 
@@ -194,25 +192,34 @@ npm run dev
 
 ---
 
-## 🤝 **Contributing**
+## 🤝 Contributing
 
-Contributions are welcome! Please fork the repo and create a pull request. For major changes, please open an issue first.
+**We welcome contributions!** whether it's a bug fix, feature request, or documentation improvement. Please follow the standard engineering workflow:
+
+1. **Fork** the repository.
+2. Create a **Feature Branch** (`git checkout -b feature/NewFeature`).
+3. **Commit** your changes (`git commit -m 'Add some NewFeature'`).
+4. **Push** to the branch (`git push origin feature/NewFeature`).
+5. Open a **Pull Request**.
+
+> 💡 *Note: For major architectural changes, please open an issue first to discuss the approach.*
 
 ---
 
-## 📬 **Author**
-
-**Aditya Singh**
-
-* Full Stack Engineer specialized in **MERN & System Design**.
-* [GitHub](https://www.google.com/search?q=https://github.com/adityasunnysingh1) | [LinkedIn](https://www.google.com/search?q=https://linkedin.com/in/adityasunnysingh)
-
----
+## 📬 Author & System Architect
 
 <div align="center">
-  <sub>© 2025 VirtualCourses. Architected with the MERN Stack & Redis by Aditya Singh.</sub>
-</div>
 
+### **Aditya Singh**
+**Full Stack Engineer specialized in Distributed Systems & MERN Architecture.**
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/adityasunnysingh) [![GitHub](https://img.shields.io/badge/GitHub-Follow-black?style=for-the-badge&logo=github)](https://github.com/adityasunnysingh1)
+
+<br />
+
+<sub>© 2025 VirtualCourses. Architected with the **MERN Stack** & **Redis** by Aditya Singh.</sub>
+
+</div>
 ```
 
 ```
