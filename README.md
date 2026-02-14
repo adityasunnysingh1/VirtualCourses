@@ -217,9 +217,8 @@ npm run dev
 
 <br />
 
-<sub>© 2025 VirtualCourses. Architected with the **MERN Stack** & **Redis** by Aditya Singh.</sub>
+<sub>© 2025 VirtualCourses. Architected with 💖 by Aditya Singh.</sub>
 
 </div>
-```
 
 ```
