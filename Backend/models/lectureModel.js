@@ -7,11 +7,11 @@ const lectureSchema = new mongoose.Schema({
     },
     videoUrl: {
         type: String,
-       required: true 
+       required: false
     },
     transcript: { 
         type: String,
-        default: "" // Store the lecture text/summary here
+        default: "" 
     },
     isPreviewFree: {
         type: Boolean,
