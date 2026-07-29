@@ -40,7 +40,8 @@ export const getReviews = async (req, res) => {
     try {
         const reviews = await getOrSetCache("reviews:all", async () => {
             return await Review.find({})
-                .populate("user", "course")
+                .populate("user", "name photoUrl description")
+                .populate("course", "title")
                 .sort({ reviewedAt: -1 });
         }, 3600);
 
