@@ -2,7 +2,7 @@
 import { GoStarFill } from "react-icons/go";
 import { CiStar } from "react-icons/ci";
 
-function ReviewCard({comment, rating ,photoUrl ,name ,description, courseTitle}) {
+function ReviewCard({comment,rating,photoUrl,name,description,courseTitle}) {
   return (
     <div className='bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 max-w-sm w-full'>
       <div className='flex items-center mb-3 text-yellow-400 text-sm'>
